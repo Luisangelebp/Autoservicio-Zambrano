@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Usuario - Servicio Mecánico</title>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+            integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Poppins:wght@400;600;700&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="style.pg-usuario.css" />
+    </head>
+    <body>
+        <header class="app-header">
+            <div class="header-content">
+                <h1><i class="fas fa-user"></i> Bienvenido, Usuario</h1>
+                <nav>
+                    <a href="citas.html" class="nav-link"
+                        ><i class="fas fa-calendar-alt"></i> Agendar Citas</a
+                    >
+                    <a href="tienda.html" class="nav-link"
+                        ><i class="fas fa-store"></i> Tienda de Repuestos</a
+                    >
+                    <a href="pagos.html" class="nav-link"
+                        ><i class="fas fa-money-check-alt"></i> Facilidad de
+                        Pago</a
+                    >
+                    <a href="pago.html" class="nav-link"
+                        ><i class="fas fa-cash-register"></i> Pagar Compra</a
+                    >
+                    <a href="recuperacion.html" class="nav-link"
+                        ><i class="fas fa-unlock-alt"></i> Recuperar
+                        Contraseña</a
+                    >
+                    <button id="logoutBtn" class="btn secondary-btn">
+                        <i class="fas fa-sign-out-alt"></i> Salir
+                    </button>
+                </nav>
+            </div>
+        </header>
+        <main class="app-main">
+            <section class="info-section">
+                <h2>Opciones Disponibles</h2>
+                <p>
+                    Selecciona una opción del menú de navegación para gestionar
+                    tu cuenta y servicios.
+                </p>
+                <p>
+                    Desde aquí podrás agendar citas, explorar nuestra tienda de
+                    repuestos y gestionar tus pagos.
+                </p>
+            </section>
+        </main>
+        <script>
+            // Este script es para el botón "Salir" en la página de usuario
+            document.addEventListener('DOMContentLoaded', function () {
+                const logoutBtn = document.getElementById('logoutBtn');
+                if (logoutBtn) {
+                    logoutBtn.addEventListener('click', function () {
+                        window.location.href = 'index.html'; // Redirigir a la página de login
+                    });
+                }
+            });
+        </script>
+    </body>
+</html>

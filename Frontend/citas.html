@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agendar Citas - Servicio Mecánico</title>
+    <link rel="stylesheet" href="citas.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <h1>AGENDAR CITA</h1>
+        <p>Selecciona la fecha y hora que mejor se adapte a tu necesidad.</p>
+    </header>
+
+    <main>
+        <section id="formulario-cita">
+            <h2><i class="fas fa-calendar-plus"></i>NUEVA CITA </h2> 
+            <form id="citaForm">
+                <div class="input-group">
+                    <label for="nombre"><i class="fas fa-user"></i> Nombre Completo:</label>
+                    <input type="text" id="nombre" placeholder="Tu Nombre" 
+                           pattern="[A-Za-zñÑáéíóúÁÉÍÓÚ\s]+" 
+                           title="Solo se permiten letras y espacios." required>
+                </div>
+
+                <div class="input-group">
+                    <label for="telefono"><i class="fas fa-phone"></i> Teléfono:</label>
+                    <input type="tel" id="telefono" placeholder="Ej: 04121234567" 
+                           pattern="[0-9]{11}" 
+                           title="Ingresa exactamente 11 dígitos numéricos (ej: 04121234567)" 
+                           inputmode="numeric" 
+                           maxlength="11" 
+                           required>
+                </div>
+
+                <div class="input-group">
+                    <label for="servicio"><i class="fas fa-tools"></i> Tipo de Servicio:</label>
+                    <select id="servicio" required>
+                        <option value="">Selecciona un servicio</option>
+                        <option value="revision_general">Revisión General</option>
+                        <option value="cambio_aceite">Cambio de Aceite</option>
+                        <option value="frenos">Revisión/Cambio de Frenos</option>
+                        <option value="suspension">Revisión de Suspensión</option>
+                        <option value="electricidad">Diagnóstico Eléctrico</option>
+                        <option value="motor">Reparación de Motor</option>
+                        <option value="aire_acondicionado">Mantenimiento de Aire Acondicionado</option>
+                        <option value="caja_velocidades">Revisión de Caja de Velocidades</option>
+                        <option value="alineacion_balanceo">Alineación y Balanceo</option>
+                        <option value="otro">Otro (especificar)</option>
+                    </select>
+                </div>
+
+                <div class="input-group" id="otroServicioGroup" style="display:none;">
+                    <label for="otroServicio"><i class="fas fa-info-circle"></i> Especifica otro servicio:</label>
+                    <input type="text" id="otroServicio" placeholder="Ej: Revisión de luces">
+                </div>
+
+                <div class="input-group">
+                    <label for="fecha"><i class="fas fa-calendar-day"></i> Fecha:</label>
+                    <input type="date" id="fecha" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="hora"><i class="fas fa-clock"></i> Hora:</label>
+                    <input type="time" id="hora" required>
+                </div>
+
+                <button type="submit" class="btn primary-btn"><i class="fas fa-paper-plane"></i> Agendar Cita</button>
+                <p id="mensajeCita" class="message" style="display:none;"></p>
+            </form>
+        </section>
+
+        <section id="lista-citas">
+            <h2><i class="fas fa-calendar-check"></i> Mis Citas Agendadas</h2>
+            <div id="citasAgendadas">
+                <p class="empty-list-message">No tienes citas agendadas aún.</p>
+            </div>
+            <button type="button" id="btnAtras" class="btn secondary-btn"><i class="fas fa-arrow-left"></i> Atrás</button>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 AUTO SERVICIO ZAMBRANO</p>
+    </footer>
+    <script src="citas.js"></script>
+</body>
+</html>
