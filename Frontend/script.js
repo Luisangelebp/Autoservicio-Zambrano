@@ -10,6 +10,8 @@ const formTitle = document.getElementById('formTitle');
 const saveBtnText = document.getElementById('saveBtnText');
 const cancelEditBtn = document.getElementById('cancelEdit');
 
+const token = localStorage.getItem('token');
+
 // Datos iniciales
 let usuarios = [
     {

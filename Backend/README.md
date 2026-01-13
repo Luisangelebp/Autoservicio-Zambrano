@@ -4,7 +4,7 @@ ejecuta en localhost:3000
 
 ## EndPoints
 
--   /login (cliente, admin)
+-   /login (cliente, admin, rol)
 -   /registro (solo cliente)
 
 > Una vez hecho login el front debe guardar el accestoken que se enviara, el mismo debe de enviarlo en el header de cualquier peticion posterior
