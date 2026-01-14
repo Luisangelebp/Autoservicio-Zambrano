@@ -66,7 +66,11 @@ getCitas().then(async (data) => {
     });
     if (data.length > 0) {
         citasList.innerHTML = '';
-        data.forEach((cita) => {
+        let citaidsByClienteId = data.filter(
+            (cita) =>
+                cita.id_cliente === JSON.parse(localStorage.getItem('user')).id
+        );
+        citaidsByClienteId.forEach((cita) => {
             const CitaItemMecanico = Cmecanicos.find(
                 (mecanico) => mecanico.id === cita.id_mecanico
             );
@@ -122,5 +126,8 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Error scheduling appointment:', error);
             alert('Error al agendar la cita');
         }
+    });
+    document.getElementById('btnAtras').addEventListener('click', () => {
+        window.location.href = 'pg_principal suario.html';
     });
 });

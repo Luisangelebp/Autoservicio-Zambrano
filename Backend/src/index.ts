@@ -11,6 +11,7 @@ import mecanicoRouter from "./routes/mecanicoRoutes";
 import clienteRouter from "./routes/clienteRoutes";
 import citaRouter from "./routes/citaRoutes";
 import pagoRouter from "./routes/pagoRoutes";
+import itemsRouter from "./routes/itemsRoutes";
 
 // --------------------------------
 
@@ -32,6 +33,9 @@ app.use("/mecanicos", authMiddleware, mecanicoRouter);
 app.use("/clientes", authMiddleware, clienteRouter);
 app.use("/citas", authMiddleware, citaRouter);
 app.use("/pagos", authMiddleware, pagoRouter);
+app.use("/items", authMiddleware, itemsRouter);
+
+app.use("/uploads", express.static("src/uploads"));
 
 app.listen(8000, () => {
   console.log("Server is running on port 8000");
