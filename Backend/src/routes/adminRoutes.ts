@@ -1,9 +1,10 @@
 import { Router } from "express";
-import { createAdmin, updateAdmin } from "../controllers/adminControllers";
+import { getAdmins, createAdmin, updateAdmin } from "../controllers/adminControllers";
 
 const router = Router();
 
 router
+    .get("/", getAdmins)
     .post("/", createAdmin)
     .put("/:id", updateAdmin);
 
