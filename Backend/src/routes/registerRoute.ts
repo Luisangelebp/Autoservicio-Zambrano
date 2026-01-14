@@ -25,7 +25,7 @@ router.post("/", async (req: Request, res: Response) => {
   } catch (error: any) {
     console.error(error);
     if (error.message.includes("UNIQUE constraint failed")) {
-      return res.status(409).json({ message: "El correo ya está registrado" });
+      return res.status(409).json({ message: "El correo o la cedula ya estan registrados" });
     }
     return res.status(500).json({ message: "Error en el servidor" });
   }

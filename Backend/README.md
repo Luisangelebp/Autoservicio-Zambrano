@@ -20,4 +20,13 @@ ejecuta en localhost:3000
 
 ```
 
+## EndPoints Items (Productos)
+
+-   /items  (GET, POST)
+-   /items/:id  (GET, PUT, DELETE)
+
+## get fotos
+
+-   /uploads/:filename  (GET)
+
 ```

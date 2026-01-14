@@ -18,7 +18,7 @@ async function initializeDatabase() {
       apellido TEXT NOT NULL,
       correo TEXT UNIQUE NOT NULL,
       pass TEXT NOT NULL,
-      cedula TEXT NOT NULL,
+      cedula TEXT NOT NULL UNIQUE,
       direccion TEXT,
       telefono INTEGER
   );
