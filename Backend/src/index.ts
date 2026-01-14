@@ -12,6 +12,7 @@ import clienteRouter from "./routes/clienteRoutes";
 import citaRouter from "./routes/citaRoutes";
 import pagoRouter from "./routes/pagoRoutes";
 import itemsRouter from "./routes/itemsRoutes";
+import carritoRouter from "./routes/carritoRoutes";
 
 // --------------------------------
 
@@ -34,6 +35,7 @@ app.use("/clientes", authMiddleware, clienteRouter);
 app.use("/citas", authMiddleware, citaRouter);
 app.use("/pagos", authMiddleware, pagoRouter);
 app.use("/items", authMiddleware, itemsRouter);
+app.use("/carritos", authMiddleware, carritoRouter);
 
 app.use("/uploads", express.static("src/uploads"));
 

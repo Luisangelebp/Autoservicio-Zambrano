@@ -2,6 +2,19 @@ import { db } from "../database";
 import { Request, Response } from "express";
 import { Admin } from "../models/adminModel";
 
+// Get all admins
+
+export async function getAdmins(req: Request, res: Response) {
+  try {
+    const admins = await db.all("SELECT * FROM admins");
+    return res.json(admins);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Error en el servidor" });
+  }
+}
+
+
 // Crear un nuevo admin
 export async function createAdmin(req: Request, res: Response) {
   const { nombre, apellido, correo, pass, cedula }: Admin = req.body;
