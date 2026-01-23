@@ -1,11 +1,12 @@
 import { Router } from "express";
-import { getAdmins, createAdmin, updateAdmin } from "../controllers/adminControllers";
+import { getAdmins, createAdmin, updateAdmin, deleteAdmin } from "../controllers/adminControllers";
 
 const router = Router();
 
 router
     .get("/", getAdmins)
     .post("/", createAdmin)
-    .put("/:id", updateAdmin);
+    .put("/:id", updateAdmin)
+    .delete("/:id", deleteAdmin);
 
 export default router;

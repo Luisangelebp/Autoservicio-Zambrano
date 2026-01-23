@@ -93,3 +93,25 @@ export async function updateAdmin(req: Request, res: Response) {
     return res.status(500).json({ message: "Error en el servidor" });
   }
 }
+
+// Eliminar un admin existente
+export async function deleteAdmin(req: Request, res: Response) {
+  const { id } = req.params;
+
+  if (!id) {
+    return res.status(400).json({ message: "ID requerido" });
+  }
+
+  try {
+    const result = await db.run("DELETE FROM admins WHERE id = ?", [id]);
+
+    if (result.changes === 0) {
+      return res.status(404).json({ message: "Admin no encontrado" });
+    }
+
+    return res.json({ message: "Admin eliminado exitosamente 🚀" });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Error en el servidor" });
+  }
+}
