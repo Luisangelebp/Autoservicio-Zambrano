@@ -15,24 +15,3 @@ This document provides context and guidelines for using the GEMINI (Genomic Expl
 -- the elements to send to the cart api are: clienteId, productos: [{itemId, cantidad}...]
 
 ## Examples
-
-'-- Example 1: rendering products on the webpage
-
-```javascript
-const listaProductosDiv = document.getElementById('lista-productos');
-const renderProductos = (productos) => {
-    listaProductosDiv.innerHTML = '';
-    productos.forEach((producto) => {
-        const productoCard = document.createElement('div');
-        productoCard.classList.add('producto-card');
-        productoCard.innerHTML = `
-                <img src="http://localhost:8000/uploads/${producto.foto}" alt="${producto.nombre}">
-                <h3>${producto.nombre}</h3>
-                <p class="descripcion">${producto.descripcion}</p>
-                <p class="precio">${producto.precio} Bs.D</p>
-                <button data-id="${producto.id}"><i class="fas fa-cart-plus"></i> Añadir al Carrito</button>
-            `;
-        listaProductosDiv.appendChild(productoCard);
-    });
-};
-```
