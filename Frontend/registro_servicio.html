@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Servicio - Servicio Mecánico</title>
+    <link rel="stylesheet" href="registro-servicio.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="contabilidad.html" class="back-button" title="Volver a Contabilidad">
+                <i class="fas fa-arrow-left"></i> Atrás
+            </a>
+            <h1>Registrar Nuevo Servicio</h1>
+        </div>
+    </header>
+
+    <main>
+        <section id="registro-servicio-form">
+            <h2>Detalles del Servicio</h2>
+            <form id="formRegistroServicio">
+                <div class="input-group">
+                    <label for="clienteNombre">Nombre del Cliente:</label>
+                    <input type="text" id="clienteNombre"
+                           oninput="this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '')"
+                           maxlength="12" title="Solo letras, máximo 12 caracteres" required>
+                </div>
+                <div class="input-group">
+                    <label for="clienteCedula">Cédula del Cliente:</label>
+                    <input type="text" id="clienteCedula"
+                           oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                           pattern="\d{8}" maxlength="8" inputmode="numeric" title="Solo 8 dígitos numéricos" required>
+                </div>
+                <div class="input-group">
+                    <label for="mecanicoServicio">Mecánico/Servicio:</label>
+                    <select id="mecanicoServicio" required>
+                        <option value="">-- Seleccionar Mecánico --</option>
+                        <option value="Servicio General">Servicio General</option>
+                        <option value="Especialista 1 (Motor)">Especialista 1 (Motor)</option>
+                        <option value="Especialista 2 (Frenos)">Especialista 2 (Frenos)</option>
+                        <option value="Especialista 3 (Suspensión)">Especialista 3 (Suspensión)</option>
+                        <option value="Especialista 4 (Electricidad)">Especialista 4 (Electricidad)</option>
+                        <option value="Especialista 5 (Aire Acondicionado)">Especialista 5 (Aire Acondicionado)</option>
+                        <option value="Especialista 6 (Transmisión)">Especialista 6 (Transmisión)</option>
+                        <option value="Especialista 7 (Diagnóstico)">Especialista 7 (Diagnóstico)</option>
+                        <option value="Especialista 8 (Mantenimiento General)">Especialista 8 (Mantenimiento General)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="tipoServicio">Descripción del Servicio:</label>
+                    <input type="text" id="tipoServicio" placeholder="Ej: Cambio de aceite, Reparación de frenos" required>
+                </div>
+                <div class="input-group">
+                    <label for="costoServicio">Costo del Servicio (Bs.):</label>
+                    <input type="number" id="costoServicio" min="0" step="0.01" required>
+                </div>
+                <div class="input-group">
+                    <label for="fechaServicio">Fecha del Servicio:</label>
+                    <input type="date" id="fechaServicio" required>
+                </div>
+                <button type="submit" class="btn primary-btn">Registrar Servicio</button>
+            </form>
+            <div id="mensaje-registro-servicio" class="message" style="display:none;"></div>
+        </section>
+    </main>
+    </footer>
+
+    <script src="registro-servicio.js"></script>
+</body>
+</html>

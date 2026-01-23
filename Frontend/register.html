@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Registro - Servicio Mecánico</title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+        />
+        <link rel="stylesheet" href="registro-styles.css" />
+    </head>
+    <body>
+        <header>
+            <h1>Servicio Mecánico</h1>
+        </header>
+
+        <main>
+            <section id="registro">
+                <h2>Crea tu cuenta</h2>
+                <form id="registroForm">
+                    <div class="input-group">
+                        <label for="reg_nombre">Nombre</label>
+                        <div class="input-wrapper">
+                            <input
+                                type="text"
+                                id="reg_nombre"
+                                placeholder="Juan"
+                                oninput="this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '')"
+                                required
+                            />
+                            <i class="fas fa-user"></i>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="reg_apellido">Apellido</label>
+                        <div class="input-wrapper">
+                            <input
+                                type="text"
+                                id="reg_apellido"
+                                placeholder="Pérez"
+                                oninput="this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '')"
+                                required
+                            />
+                            <i class="fas fa-id-card"></i>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="reg_id">Cédula de Identidad</label>
+                        <div class="input-wrapper">
+                            <input
+                                type="text"
+                                id="reg_id"
+                                placeholder="12345678"
+                                pattern="\d{8}"
+                                maxlength="8"
+                                inputmode="numeric"
+                                required
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                            />
+                            <i class="fas fa-passport"></i>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="reg_telefono">Teléfono</label>
+                        <div class="input-wrapper">
+                            <input
+                                type="text"
+                                id="reg_telefono"
+                                placeholder="04121234567"
+                                pattern="\d{11}"
+                                maxlength="11"
+                                inputmode="numeric"
+                                required
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                            />
+                            <i class="fas fa-phone"></i>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="reg_direccion">Direccion</label>
+                        <div class="input-wrapper">
+                            <input
+                                type="text"
+                                id="reg_direccion"
+                                placeholder="Calle, Avenida, etc."
+                                required
+                            />
+                            <i class="fa-regular fa-map"></i>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="reg_correo">Correo Electrónico</label>
+                        <div class="input-wrapper">
+                            <input
+                                type="email"
+                                id="reg_correo"
+                                placeholder="ejemplo@dominio.com"
+                                required
+                            />
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="reg_contrasena">Contraseña</label>
+                        <div class="input-wrapper">
+                            <input
+                                type="password"
+                                id="reg_contrasena"
+                                placeholder="Letras y números"
+                                minlength="6"
+                                maxlength="12"
+                                pattern="[a-zA-Z0-9]{6,12}"
+                                required
+                            />
+                            <i class="fas fa-lock"></i>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn primary-btn" id="submit">
+                        Crear Cuenta
+                    </button>
+                    <div id="mensaje-registro" class="message"></div>
+                </form>
+                <p class="login-link">
+                    ¿Ya tienes cuenta?<a href="index.html">Inicia Sesión</a>
+                </p>
+            </section>
+        </main>
+
+        <footer>
+            <p>
+                &copy; 2024 Servicio Mecánico Premium. Todos los derechos
+                reservados.
+            </p>
+        </footer>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+        <script src="registro-script.js"></script>
+    </body>
+</html>

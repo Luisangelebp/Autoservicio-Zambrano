@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Servicio - Taller Mecánico</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <style>
+        /* --- CSS Integrado --- */
+
+        /* Variables CSS para colores y fuentes */
+        :root {
+            --primary-color: #000000; /* Azul vibrante */
+            --secondary-color: #28a745; /* Verde para éxito/acciones */
+            --accent-color: #ffc107; /* Amarillo para acentos */
+            --dark-bg: #2c3e50; /* Azul oscuro para fondos principales */
+            --light-bg: #ecf0f1; /* Gris claro para fondos de secciones */
+            --text-color: #34495e; /* Color de texto general */
+            --white-color: #ffffff;
+            --border-color: #bdc3c7;
+            --shadow-color: rgba(0, 0, 0, 0.15);
+            --danger-color: #dc3545; /* Rojo para eliminar */
+
+            --font-family-body: 'Roboto', sans-serif;
+            --font-family-heading: 'Poppins', sans-serif;
+        }
+
+        /* Base Body Styles */
+        body {
+            font-family: var(--font-family-body);
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #f0f2f5 0%, #e0e4eb 100%);
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Alinea al inicio para que el contenido fluya */
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 1200px;
+            background-color: var(--white-color);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px var(--shadow-color);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header Styles */
+        .app-header {
+            background: var(--dark-bg);
+            color: var(--white-color);
+            padding: 1.5rem 2rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            border-bottom: 5px solid var(--accent-color);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .app-header h1 {
+            margin: 0;
+            font-size: 2.2rem;
+            font-family: var(--font-family-heading);
+            font-weight: 700;
+            color: var(--white-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        .app-header h1 .fas {
+            color: var(--accent-color);
+            font-size: 2rem;
+        }
+
+        /* Back Button */
+        .back-button {
+            background-color: var(--primary-color);
+            color: var(--white-color);
+            padding: 0.8rem 1.2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .back-button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        /* Main Content Area */
+        .app-main {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+        }
+
+        .form-section, .invoices-section {
+            background-color: var(--light-bg);
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px var(--shadow-color);
+            animation: fadeIn 0.8s ease-out;
+            border: 1px solid var(--border-color);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-header, .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .form-header h2, .section-header h2 {
+            margin: 0;
+            font-size: 2rem;
+            color: var(--dark-bg);
+            font-family: var(--font-family-heading);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .form-header h2 .fas, .section-header h2 .fas {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+        }
+
+        /* Form Styles */
+        .service-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .input-group {
+            margin-bottom: 0.5rem; /* Menos margen porque usamos gap en el grid */
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.6rem;
+            font-weight: 600;
+            color: var(--dark-bg);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+        }
+
+        .styled-input, .styled-select {
+            width: 100%;
+            padding: 1rem 1.2rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            background-color: var(--white-color);
+            color: var(--text-color);
+        }
+
+        .styled-input:focus, .styled-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.15);
+            outline: none;
+        }
+
+        .styled-select {
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg fill="%2334495e" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 20px;
+        }
+
+        /* Button Styles */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 0.9rem 1.8rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            box-shadow: 0 2px 8px var(--shadow-color);
+        }
+
+        .primary-btn {
+            background-color: var(--primary-color);
+            color: var(--white-color);
+        }
+        .primary-btn:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.25);
+        }
+
+        .secondary-btn {
+            background-color: #6c757d; /* Gris oscuro */
+            color: var(--white-color);
+        }
+        .secondary-btn:hover {
+            background-color: #5a6268;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(108, 117, 125, 0.25);
+        }
+
+        .invoice-btn {
+            background-color: var(--accent-color);
+            color: var(--dark-bg);
+            font-weight: 700;
+        }
+        .invoice-btn:hover {
+            background-color: #e0a800;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 193, 7, 0.25);
+        }
+
+        .submit-btn {
+            grid-column: 1 / -1; /* Ocupa todo el ancho en el grid */
+            margin-top: 1rem;
+            padding: 1.2rem 2rem;
+            font-size: 1.2rem;
+            border-radius: 10px;
+        }
+
+        .small-btn {
+            padding: 0.6rem 1rem;
+            font-size: 0.9rem;
+            gap: 5px;
+        }
+
+        /* Message Styles */
+        .message {
+            padding: 1.2rem;
+            margin-top: 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-align: center;
+            animation: slideIn 0.5s ease-out;
+            font-size: 1rem;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .message.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        /* Invoice Section Specific Styles */
+        .invoices-section {
+            display: none; /* Oculta por defecto, se muestra con JS */
+        }
+
+        .section-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .date-filter {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .date-filter label {
+            margin-bottom: 0;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--dark-bg);
+        }
+        .date-filter input[type="date"] {
+            width: auto;
+            min-width: 150px;
+        }
+
+        .invoices-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .summary-card {
+            background-color: var(--white-color);
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid;
+        }
+        .summary-card.total { border-color: var(--primary-color); }
+        .summary-card.services { border-color: var(--secondary-color); }
+        .summary-card.clients { border-color: var(--accent-color); }
+
+        .summary-card h3 {
+            margin-top: 0;
+            font-size: 1.2rem;
+            color: var(--dark-bg);
+            font-family: var(--font-family-heading);
+            font-weight: 600;
+        }
+        .summary-card p {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0;
+            color: var(--primary-color); /* Color por defecto */
+        }
+        .summary-card.total p { color: var(--primary-color); }
+        .summary-card.services p { color: var(--secondary-color); }
+        .summary-card.clients p { color: var(--accent-color); }
+
+
+        .invoices-table-container {
+            overflow-x: auto; /* Permite scroll horizontal en tablas grandes */
+            margin-top: 1.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .invoices-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 700px; /* Asegura que la tabla no sea demasiado pequeña */
+        }
+
+        .invoices-table th, .invoices-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .invoices-table thead th {
+            background-color: var(--primary-color);
+            color: var(--white-color);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        .invoices-table tbody tr:nth-child(even) {
+            background-color: var(--white-color);
+        }
+        .invoices-table tbody tr:nth-child(odd) {
+            background-color: var(--light-bg);
+        }
+
+        .invoices-table tbody tr:hover {
+            background-color: #e9f0f6;
+            cursor: pointer;
+        }
+
+        .invoices-table .action-buttons {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-start;
+        }
+
+        .invoices-table .action-buttons .btn {
+            padding: 0.5rem 0.8rem;
+            font-size: 0.85rem;
+            border-radius: 5px;
+        }
+
+        .btn-view {
+            background-color: var(--primary-color);
+            color: var(--white-color);
+        }
+        .btn-view:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-delete {
+            background-color: var(--danger-color);
+            color: var(--white-color);
+        }
+        .btn-delete:hover {
+            background-color: #c82333;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1000; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.6); /* Black w/ opacity */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: var(--white-color);
+            margin: auto;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            width: 90%;
+            max-width: 700px;
+            position: relative;
+            animation: modalOpen 0.4s ease-out;
+        }
+
+        @keyframes modalOpen {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            color: var(--dark-bg);
+            font-family: var(--font-family-heading);
+            font-size: 1.8rem;
+        }
+
+        .close-modal {
+            color: #aaa;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        .close-modal:hover, .close-modal:focus {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .modal-body {
+            padding-top: 10px;
+        }
+
+        .invoice-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 25px;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 15px;
+        }
+
+        .invoice-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--primary-color);
+        }
+        .invoice-logo .fas {
+            font-size: 3rem;
+        }
+        .invoice-logo h2 {
+            margin: 0;
+            font-size: 1.8rem;
+            font-family: var(--font-family-heading);
+            color: var(--dark-bg);
+        }
+
+        .invoice-info p {
+            margin: 5px 0;
+            font-size: 0.95rem;
+            text-align: right;
+            color: var(--text-color);
+        }
+        .invoice-info strong {
+            color: var(--dark-bg);
+        }
+
+        .invoice-client, .invoice-details {
+            margin-bottom: 25px;
+            background-color: var(--light-bg);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+        .invoice-client h4, .invoice-details h4 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+            font-family: var(--font-family-heading);
+            font-size: 1.3rem;
+            border-bottom: 1px dashed var(--border-color);
+            padding-bottom: 8px;
+        }
+        .invoice-client p {
+            margin: 5px 0;
+            font-size: 1rem;
+        }
+
+        .invoice-details table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        .invoice-details th, .invoice-details td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        .invoice-details th {
+            background-color: var(--primary-color);
+            color: var(--white-color);
+            font-weight: 600;
+        }
+
+        .invoice-total {
+            text-align: right;
+            margin-top: 25px;
+            padding-top: 15px;
+            border-top: 2px solid var(--accent-color);
+        }
+        .invoice-total p {
+            margin: 10px 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--dark-bg);
+        }
+        .invoice-total p strong {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+        }
+        .invoice-total #invoice-total {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        .invoice-footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-color);
+            font-size: 0.9rem;
+        }
+        .invoice-footer p {
+            margin: 5px 0;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 25px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* Print-specific styles */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            .modal-content, .modal-content * {
+                visibility: visible;
+            }
+            .modal {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: auto;
+                overflow: visible;
+                background: none;
+                display: block; /* Asegura que el modal sea visible en la impresión */
+            }
+            .modal-content {
+                width: auto;
+                max-width: none;
+                box-shadow: none;
+                border: none;
+                margin: 0;
+                padding: 0;
+            }
+            .modal-header, .modal-footer {
+                display: none; /* Oculta botones y encabezado del modal en la impresión */
+            }
+            /* Ocultar elementos específicos dentro de la factura si no son necesarios */
+            .invoice-logo .fas { /* Si quieres que el icono no se imprima */
+                -webkit-print-color-adjust: exact;
+                color: #007bff !important; /* Forzar color en impresión */
+            }
+        }
+
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .app-header h1 {
+                font-size: 1.8rem;
+                gap: 8px;
+            }
+            .app-header h1 .fas {
+                font-size: 1.6rem;
+            }
+            .back-button, .invoice-btn {
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+            }
+            .app-main {
+                padding: 1.5rem;
+            }
+            .form-section, .invoices-section {
+                padding: 1.8rem;
+            }
+            .form-header h2, .section-header h2 {
+                font-size: 1.6rem;
+            }
+            .form-header h2 .fas, .section-header h2 .fas {
+                font-size: 1.4rem;
+            }
+            .service-form {
+                grid-template-columns: 1fr; /* Una columna en pantallas más pequeñas */
+            }
+            .submit-btn {
+                grid-column: auto;
+            }
+            .invoices-summary {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+            .summary-card p {
+                font-size: 1.6rem;
+            }
+            .invoices-table th, .invoices-table td {
+                padding: 10px 12px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .app-container {
+                border-radius: 0;
+                box-shadow: none;
+            }
+            body {
+                padding: 0;
+            }
+            .app-header {
+                padding: 1rem 1rem;
+            }
+            .header-content {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+            .app-header h1 {
+                font-size: 1.5rem;
+                text-align: center;
+            }
+            .app-header h1 .fas {
+                font-size: 1.3rem;
+            }
+            .back-button {
+                width: 100%;
+                text-align: center;
+                justify-content: center;
+            }
+            .invoice-btn {
+                width: 100%;
+                text-align: center;
+                justify-content: center;
+            }
+            .app-main {
+                padding: 1rem;
+            }
+            .form-section, .invoices-section {
+                padding: 1.2rem;
+                border-radius: 0;
+                box-shadow: none;
+            }
+            .form-header h2, .section-header h2 {
+                font-size: 1.4rem;
+                flex-direction: column;
+                text-align: center;
+            }
+            .form-header h2 .fas, .section-header h2 .fas {
+                font-size: 1.2rem;
+            }
+            .section-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .date-filter {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .date-filter input[type="date"] {
+                width: 100%;
+            }
+            .btn {
+                padding: 0.7rem 1.2rem;
+                font-size: 0.9rem;
+                width: 100%;
+            }
+            .small-btn {
+                width: auto;
+            }
+            .summary-card {
+                padding: 1rem;
+            }
+            .summary-card p {
+                font-size: 1.4rem;
+            }
+            .invoice-modal {
+                padding: 10px;
+            }
+            .modal-content {
+                padding: 20px;
+                width: 95%;
+            }
+            .invoice-logo .fas {
+                font-size: 2.5rem;
+            }
+            .invoice-logo h2 {
+                font-size: 1.5rem;
+            }
+            .invoice-info p {
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <div class="header-content">
+                <a href="contabilidad.html" class="back-button" title="Volver a Contabilidad">
+                    <i class="fas fa-arrow-left"></i> Atrás
+                </a>
+                <h1><i class="fas fa-tools"></i> Registrar Nuevo Servicio</h1>
+                <button id="verFacturasBtn" class="btn invoice-btn">
+                    <i class="fas fa-file-invoice-dollar"></i> Ver Facturas
+                </button>
+            </div>
+        </header>
+
+        <main class="app-main">
+            <section id="registro-servicio-form" class="form-section">
+                <div class="form-header">
+                    <h2><i class="fas fa-clipboard-list"></i> Detalles del Servicio</h2>
+                    <div class="form-actions">
+                        <button id="limpiarFormBtn" class="btn secondary-btn">
+                            <i class="fas fa-broom"></i> Limpiar
+                        </button>
+                    </div>
+                </div>
+                <form id="formRegistroServicio" class="service-form">
+                    <div class="form-grid">
+                        <div class="input-group">
+                            <label for="clienteNombre"><i class="fas fa-user"></i> Nombre del Cliente:</label>
+                            <input type="text" id="clienteNombre" class="styled-input"
+                                   oninput="this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '')"
+                                   maxlength="50" title="Solo letras, máximo 50 caracteres" placeholder="Ej: Juan Pérez" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="clienteCedula"><i class="fas fa-id-card"></i> Cédula del Cliente (V/J/E-XXXXXXXX):</label>
+                            <input type="text" id="clienteCedula" class="styled-input"
+                                   oninput="this.value = this.value.replace(/[^vVjJeE0-9-]/g, '').toUpperCase()"
+                                   pattern="^[VJEG]-\d{8}$" maxlength="10" title="Formato V-12345678 (V, J, E, G seguido de -, 8 dígitos)" placeholder="Ej: V-12345678" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="mecanicoServicio"><i class="fas fa-user-cog"></i> Mecánico/Servicio:</label>
+                            <select id="mecanicoServicio" class="styled-select" required>
+                                <option value="">-- Seleccionar Mecánico --</option>
+                                <option value="Servicio General">Servicio General</option>
+                                <option value="Especialista 1 (Motor)">Especialista 1 (Motor)</option>
+                                <option value="Especialista 2 (Frenos)">Especialista 2 (Frenos)</option>
+                                <option value="Especialista 3 (Suspensión)">Especialista 3 (Suspensión)</option>
+                                <option value="Especialista 4 (Electricidad)">Especialista 4 (Electricidad)</option>
+                                <option value="Especialista 5 (Aire Acondicionado)">Especialista 5 (Aire Acondicionado)</option>
+                                <option value="Especialista 6 (Transmisión)">Especialista 6 (Transmisión)</option>
+                                <option value="Especialista 7 (Diagnóstico)">Especialista 7 (Diagnóstico)</option>
+                                <option value="Especialista 8 (Mantenimiento General)">Especialista 8 (Mantenimiento General)</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label for="tipoServicio"><i class="fas fa-toolbox"></i> Descripción del Servicio:</label>
+                            <input type="text" id="tipoServicio" class="styled-input" 
+                                   placeholder="Ej: Cambio de aceite, Reparación de frenos" maxlength="100" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="costoServicio"><i class="fas fa-money-bill-wave"></i> Costo del Servicio (Bs.):</label>
+                            <input type="number" id="costoServicio" class="styled-input" min="0.01" step="0.01" placeholder="Ej: 150.75" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="fechaServicio"><i class="fas fa-calendar-alt"></i> Fecha del Servicio:</label>
+                            <input type="date" id="fechaServicio" class="styled-input" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn primary-btn submit-btn">
+                        <i class="fas fa-save"></i> Registrar Servicio
+                    </button>
+                </form>
+                <div id="mensaje-registro-servicio" class="message" style="display:none;"></div>
+            </section>
+
+            <section id="facturas-section" class="invoices-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-file-invoice"></i> Facturas Diarias</h2>
+                    <div class="section-actions">
+                        <div class="date-filter">
+                            <label for="filtroFecha"><i class="fas fa-filter"></i> Filtrar por fecha:</label>
+                            <input type="date" id="filtroFecha" class="styled-input">
+                            <button id="aplicarFiltroBtn" class="btn secondary-btn small-btn">Aplicar</button>
+                            <button id="limpiarFiltroBtn" class="btn secondary-btn small-btn">Limpiar</button>
+                        </div>
+                        <button id="exportarPdfListadoBtn" class="btn invoice-btn small-btn">
+                            <i class="fas fa-file-pdf"></i> Exportar Listado PDF
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="invoices-summary">
+                    <div class="summary-card total">
+                        <h3>Total Facturado</h3>
+                        <p id="totalFacturado">Bs. 0.00</p>
+                    </div>
+                    <div class="summary-card services">
+                        <h3>Servicios Realizados</h3>
+                        <p id="totalServicios">0</p>
+                    </div>
+                    <div class="summary-card clients">
+                        <h3>Clientes Atendidos</h3>
+                        <p id="totalClientes">0</p>
+                    </div>
+                </div>
+                
+                <div class="invoices-table-container">
+                    <table id="tablaFacturas" class="invoices-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Cliente</th>
+                                <th>Cédula</th>
+                                <th>Servicio</th>
+                                <th>Mecánico</th>
+                                <th>Costo (Bs.)</th>
+                                <th>Fecha</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            </tbody>
+                    </table>
+                    <p id="no-data-message" style="display:none; text-align: center; padding: 20px; color: #6c757d;">No hay servicios registrados para la fecha seleccionada o aún no se ha aplicado un filtro.</p>
+                </div>
+            </section>
+        </main>
+
+        <div id="facturaModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Factura de Servicio</h3>
+                    <span class="close-modal">&times;</span>
+                </div>
+                <div class="modal-body" id="invoice-to-print">
+                    <div class="invoice-header">
+                        <div class="invoice-logo">
+                            <i class="fas fa-car-alt"></i>
+                            <h2>Taller Mecánico Premium</h2>
+                        </div>
+                        <div class="invoice-info">
+                            <p><strong>N° Factura:</strong> <span id="invoice-id"></span></p>
+                            <p><strong>Fecha:</strong> <span id="invoice-date"></span></p>
+                        </div>
+                    </div>
+                    
+                    <div class="invoice-client">
+                        <h4>Datos del Cliente</h4>
+                        <p><strong>Nombre:</strong> <span id="modal-client-name"></span></p>
+                        <p><strong>Cédula:</strong> <span id="modal-client-id"></span></p>
+                    </div>
+                    
+                    <div class="invoice-details">
+                        <h4>Detalles del Servicio</h4>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Descripción</th>
+                                    <th>Mecánico</th>
+                                    <th>Precio</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td id="modal-service"></td>
+                                    <td id="modal-mechanic"></td>
+                                    <td id="modal-price"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="invoice-total">
+                        <p><strong>Subtotal:</strong> <span id="modal-subtotal">Bs. 0.00</span></p>
+                        <p><strong>IVA (16%):</strong> <span id="modal-iva">Bs. 0.00</span></p>
+                        <p><strong>TOTAL:</strong> <span id="modal-total">Bs. 0.00</span></p>
+                    </div>
+                    
+                    <div class="invoice-footer">
+                        <p>¡Gracias por su preferencia!</p>
+                        <p>Para reclamos o garantías presentar esta factura.</p>
+                        <p>Barinas, Barinas, Venezuela</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="imprimirFacturaBtn" class="btn primary-btn">
+                        <i class="fas fa-print"></i> Imprimir Factura
+                    </button>
+                     <button id="exportarFacturaPdfBtn" class="btn secondary-btn">
+                        <i class="fas fa-file-pdf"></i> Exportar PDF
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- JavaScript Integrado ---
+        const IVA_RATE = 0.16; // 16% de IVA en Venezuela
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const formRegistroServicio = document.getElementById('formRegistroServicio');
+            const mensajeRegistroServicio = document.getElementById('mensaje-registro-servicio');
+            const limpiarFormBtn = document.getElementById('limpiarFormBtn');
+            const verFacturasBtn = document.getElementById('verFacturasBtn');
+            const registroFormSection = document.getElementById('registro-servicio-form');
+            const facturasSection = document.getElementById('facturas-section');
+
+            const filtroFechaInput = document.getElementById('filtroFecha');
+            const aplicarFiltroBtn = document.getElementById('aplicarFiltroBtn');
+            const limpiarFiltroBtn = document.getElementById('limpiarFiltroBtn');
+            const tablaFacturasBody = document.querySelector('#tablaFacturas tbody');
+            const noDataMessage = document.getElementById('no-data-message');
+            const totalFacturadoSpan = document.getElementById('totalFacturado');
+            const totalServiciosSpan = document.getElementById('totalServicios');
+            const totalClientesSpan = document.getElementById('totalClientes');
+
+            // Modal elements
+            const facturaModal = document.getElementById('facturaModal');
+            const closeModalSpan = document.querySelector('.close-modal');
+            const imprimirFacturaBtn = document.getElementById('imprimirFacturaBtn');
+            const exportarFacturaPdfBtn = document.getElementById('exportarFacturaPdfBtn'); // New PDF export button for single invoice
+            const exportarPdfListadoBtn = document.getElementById('exportarPdfListadoBtn'); // PDF export button for list
+
+            // --- Funciones de Almacenamiento ---
+            const obtenerServicios = () => {
+                return JSON.parse(localStorage.getItem('serviciosRegistrados')) || [];
+            };
+
+            const guardarServicios = (servicios) => {
+                localStorage.setItem('serviciosRegistrados', JSON.stringify(servicios));
+            };
+
+            // --- Funciones de Utilidad ---
+            const mostrarMensaje = (mensaje, tipo) => {
+                mensajeRegistroServicio.textContent = mensaje;
+                mensajeRegistroServicio.className = `message ${tipo}`;
+                mensajeRegistroServicio.style.display = 'block';
+                setTimeout(() => {
+                    mensajeRegistroServicio.style.display = 'none';
+                }, 5000);
+            };
+
+            const limpiarFormulario = () => {
+                formRegistroServicio.reset();
+                document.getElementById('clienteNombre').focus();
+            };
+
+            const formatCurrency = (amount) => `Bs. ${parseFloat(amount).toFixed(2)}`;
+
+            // --- Funciones de Facturación ---
+            const cargarFacturasEnTabla = () => {
+                let servicios = obtenerServicios();
+                const fechaFiltro = filtroFechaInput.value;
+                let serviciosFiltrados = servicios;
+
+                if (fechaFiltro) {
+                    serviciosFiltrados = servicios.filter(s => s.fecha === fechaFiltro);
+                }
+
+                tablaFacturasBody.innerHTML = ''; // Limpiar tabla
+
+                if (serviciosFiltrados.length === 0) {
+                    noDataMessage.style.display = 'block';
+                    totalFacturadoSpan.textContent = formatCurrency(0);
+                    totalServiciosSpan.textContent = '0';
+                    totalClientesSpan.textContent = '0';
+                    return;
+                } else {
+                    noDataMessage.style.display = 'none';
+                }
+
+                let totalFacturadoDia = 0;
+                const clientesAtendidos = new Set();
+                
+                serviciosFiltrados.sort((a, b) => new Date(a.fecha) - new Date(b.fecha) || a.cliente.nombre.localeCompare(b.cliente.nombre)); // Ordenar por fecha y luego por cliente
+
+                serviciosFiltrados.forEach(servicio => {
+                    const row = tablaFacturasBody.insertRow();
+                    row.dataset.serviceId = servicio.id; // Guarda el ID en la fila para facilitar la búsqueda
+                    
+                    row.innerHTML = `
+                        <td>${servicio.id.toString().slice(-4)}</td>
+                        <td>${servicio.cliente.nombre}</td>
+                        <td>${servicio.cliente.cedula}</td>
+                        <td>${servicio.descripcion}</td>
+                        <td>${servicio.mecanico}</td>
+                        <td>${formatCurrency(servicio.costo)}</td>
+                        <td>${servicio.fecha}</td>
+                        <td class="action-buttons">
+                            <button class="btn btn-view" data-id="${servicio.id}"><i class="fas fa-eye"></i> Ver</button>
+                            <button class="btn btn-delete" data-id="${servicio.id}"><i class="fas fa-trash-alt"></i> Eliminar</button>
+                        </td>
+                    `;
+                    totalFacturadoDia += servicio.costo;
+                    clientesAtendidos.add(servicio.cliente.cedula);
+                });
+
+                totalFacturadoSpan.textContent = formatCurrency(totalFacturadoDia);
+                totalServiciosSpan.textContent = serviciosFiltrados.length;
+                totalClientesSpan.textContent = clientesAtendidos.size;
+            };
+
+            const mostrarModalFactura = (servicioId) => {
+                const servicios = obtenerServicios();
+                const servicio = servicios.find(s => s.id == servicioId);
+
+                if (!servicio) {
+                    mostrarMensaje('Servicio no encontrado.', 'error');
+                    return;
+                }
+
+                // Rellenar el modal con los datos del servicio
+                document.getElementById('invoice-id').textContent = servicio.id.toString().slice(-6); // Últimos 6 dígitos
+                document.getElementById('invoice-date').textContent = new Date(servicio.fecha).toLocaleDateString('es-VE');
+                document.getElementById('modal-client-name').textContent = servicio.cliente.nombre;
+                document.getElementById('modal-client-id').textContent = servicio.cliente.cedula;
+                document.getElementById('modal-service').textContent = servicio.descripcion;
+                document.getElementById('modal-mechanic').textContent = servicio.mecanico;
+                document.getElementById('modal-price').textContent = formatCurrency(servicio.costo);
+
+                const subtotal = servicio.costo;
+                const iva = subtotal * IVA_RATE;
+                const total = subtotal + iva;
+
+                document.getElementById('modal-subtotal').textContent = formatCurrency(subtotal);
+                document.getElementById('modal-iva').textContent = formatCurrency(iva);
+                document.getElementById('modal-total').textContent = formatCurrency(total);
+
+                facturaModal.style.display = 'flex'; // Mostrar el modal
+            };
+
+            const eliminarServicio = (id) => {
+                if (confirm('¿Está seguro de que desea eliminar este servicio? Esta acción es irreversible.')) {
+                    let servicios = obtenerServicios();
+                    servicios = servicios.filter(s => s.id != id);
+                    guardarServicios(servicios);
+                    mostrarMensaje('Servicio eliminado exitosamente.', 'success');
+                    cargarFacturasEnTabla(); // Recargar la tabla después de eliminar
+                }
+            };
+
+            // --- Event Listeners ---
+
+            // Formulario de Registro
+            formRegistroServicio.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                const clienteNombre = document.getElementById('clienteNombre').value.trim();
+                const clienteCedula = document.getElementById('clienteCedula').value.trim().toUpperCase();
+                const mecanicoServicio = document.getElementById('mecanicoServicio').value;
+                const tipoServicio = document.getElementById('tipoServicio').value.trim();
+                const costoServicio = parseFloat(document.getElementById('costoServicio').value);
+                const fechaServicio = document.getElementById('fechaServicio').value;
+
+                // Validaciones
+                if (!clienteNombre || !clienteCedula || !mecanicoServicio || !tipoServicio || isNaN(costoServicio) || !fechaServicio) {
+                    mostrarMensaje('Por favor, complete todos los campos obligatorios.', 'error');
+                    return;
+                }
+                if (!/^[VJEG]-\d{8}$/.test(clienteCedula)) {
+                    mostrarMensaje('Formato de cédula incorrecto. Use V-12345678, J-12345678, E-12345678 o G-12345678.', 'error');
+                    return;
+                }
+                if (costoServicio <= 0) {
+                    mostrarMensaje('El costo del servicio debe ser un valor positivo.', 'error');
+                    return;
+                }
+                
+                // Generar ID único usando Date.now() y un pequeño aleatorio por si acaso
+                const nuevoServicio = {
+                    id: Date.now() + Math.floor(Math.random() * 100),
+                    cliente: {
+                        nombre: clienteNombre,
+                        cedula: clienteCedula
+                    },
+                    mecanico: mecanicoServicio,
+                    descripcion: tipoServicio,
+                    costo: costoServicio,
+                    fecha: fechaServicio
+                };
+
+                guardarServicios([...obtenerServicios(), nuevoServicio]);
+                mostrarMensaje('Servicio registrado exitosamente.', 'success');
+                limpiarFormulario();
+                
+                // Si la sección de facturas está visible, recargarla
+                if (facturasSection.style.display !== 'none') {
+                    cargarFacturasEnTabla(); 
+                }
+            });
+
+            limpiarFormBtn.addEventListener('click', limpiarFormulario);
+
+            // Botón para alternar entre Registro y Facturas
+            verFacturasBtn.addEventListener('click', () => {
+                if (registroFormSection.style.display === 'none') {
+                    // Si las facturas están visibles, volver al registro
+                    registroFormSection.style.display = 'block';
+                    facturasSection.style.display = 'none';
+                    verFacturasBtn.innerHTML = '<i class="fas fa-file-invoice-dollar"></i> Ver Facturas';
+                    // Restablecer filtro de fecha y cargar tabla sin filtro al volver
+                    filtroFechaInput.value = '';
+                    cargarFacturasEnTabla();
+                } else {
+                    // Si el registro está visible, ir a facturas
+                    registroFormSection.style.display = 'none';
+                    facturasSection.style.display = 'block';
+                    verFacturasBtn.innerHTML = '<i class="fas fa-clipboard-list"></i> Registrar Servicio';
+                    // Cargar facturas para la fecha actual por defecto
+                    filtroFechaInput.value = new Date().toISOString().slice(0, 10);
+                    cargarFacturasEnTabla();
+                }
+            });
+
+            // Filtros de Facturas
+            aplicarFiltroBtn.addEventListener('click', cargarFacturasEnTabla);
+            limpiarFiltroBtn.addEventListener('click', () => {
+                filtroFechaInput.value = '';
+                cargarFacturasEnTabla();
+            });
+
+            // Event listener para los botones "Ver" y "Eliminar" en la tabla de facturas
+            tablaFacturasBody.addEventListener('click', (e) => {
+                if (e.target.classList.contains('btn-view')) {
+                    mostrarModalFactura(e.target.dataset.id);
+                } else if (e.target.classList.contains('btn-delete')) {
+                    eliminarServicio(e.target.dataset.id);
+                }
+            });
+
+            // Cerrar Modal
+            closeModalSpan.addEventListener('click', () => {
+                facturaModal.style.display = 'none';
+            });
+
+            window.addEventListener('click', (e) => {
+                if (e.target == facturaModal) {
+                    facturaModal.style.display = 'none';
+                }
+            });
+
+            // Botón Imprimir Factura (dentro del modal)
+            imprimirFacturaBtn.addEventListener('click', () => {
+                window.print(); // Abre la ventana de impresión del navegador
+            });
+
+            // Botón Exportar Factura a PDF (dentro del modal)
+            exportarFacturaPdfBtn.addEventListener('click', () => {
+                const invoiceContent = document.getElementById('invoice-to-print');
+                const { jsPDF } = window.jspdf;
+
+                html2canvas(invoiceContent, { scale: 2 }).then(canvas => {
+                    const imgData = canvas.toDataURL('image/png');
+                    const pdf = new jsPDF('p', 'mm', 'a4');
+                    const imgWidth = 210; 
+                    const pageHeight = 297; 
+                    const imgHeight = canvas.height * imgWidth / canvas.width;
+                    let heightLeft = imgHeight;
+                    let position = 0;
+
+                    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
+
+                    while (heightLeft >= 0) {
+                        position = heightLeft - imgHeight;
+                        pdf.addPage();
+                        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                        heightLeft -= pageHeight;
+                    }
+                    pdf.save(`factura_${document.getElementById('invoice-id').textContent}.pdf`);
+                });
+            });
+
+            // Botón Exportar Listado de Facturas a PDF
+            exportarPdfListadoBtn.addEventListener('click', () => {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF('p', 'pt', 'letter');
+                const table = document.getElementById('tablaFacturas');
+                
+                doc.setFontSize(18);
+                doc.text("Listado de Servicios Diarios", 40, 40);
+
+                const fechaFiltro = filtroFechaInput.value;
+                if (fechaFiltro) {
+                    doc.setFontSize(12);
+                    doc.text(`Fecha: ${new Date(fechaFiltro).toLocaleDateString('es-VE')}`, 40, 60);
+                }
+                 
+                // Calcular la altura disponible para la tabla
+                const startY = 80;
+                const endY = doc.internal.pageSize.height - 40; // Margen inferior
+
+                // Extraer solo las filas visibles (tbody) para evitar el encabezado duplicado
+                const tableBody = table.querySelector('tbody');
+                if (!tableBody || tableBody.rows.length === 0) {
+                     alert("No hay datos en la tabla para exportar.");
+                     return;
+                }
+                 
+                const headers = Array.from(table.querySelectorAll('thead th')).map(th => th.textContent);
+                // Excluir la columna de Acciones para el PDF
+                const filteredHeaders = headers.filter(header => header !== 'Acciones');
+
+                // Obtener los datos de las filas visibles
+                const rows = Array.from(tableBody.rows).map(row => 
+                    Array.from(row.cells).filter((cell, index) => headers[index] !== 'Acciones').map(cell => cell.textContent)
+                );
+
+                doc.autoTable({
+                    head: [filteredHeaders],
+                    body: rows,
+                    startY: startY,
+                    theme: 'striped', // Puedes usar 'striped', 'grid', 'plain'
+                    styles: { fontSize: 8, cellPadding: 5, overflow: 'linebreak' },
+                    headStyles: { fillColor: [0, 123, 255], textColor: 255, fontStyle: 'bold' },
+                    columnStyles: {
+                        0: {cellWidth: 30}, // ID
+                        1: {cellWidth: 80}, // Cliente
+                        2: {cellWidth: 70}, // Cédula
+                        3: {cellWidth: 100}, // Servicio
+                        4: {cellWidth: 90}, // Mecánico
+                        5: {cellWidth: 70}, // Costo
+                        6: {cellWidth: 60}, // Fecha
+                    },
+                    margin: { top: startY, right: 40, bottom: 40, left: 40 },
+                    didParseCell: function(data) {
+                        // Alinear columnas numéricas a la derecha
+                        if (data.column.index === 5) { // Costo
+                            data.cell.styles.halign = 'right';
+                        }
+                    }
+                });
+
+                const finalY = doc.autoTable.previous.finalY;
+                
+                // Agregar resumen al final del PDF
+                doc.setFontSize(10);
+                doc.text(`Total Facturado: ${totalFacturadoSpan.textContent}`, 40, finalY + 20);
+                doc.text(`Servicios Realizados: ${totalServiciosSpan.textContent}`, 40, finalY + 35);
+                doc.text(`Clientes Atendidos: ${totalClientesSpan.textContent}`, 40, finalY + 50);
+
+                doc.save(`listado_servicios_${fechaFiltro || 'todos'}.pdf`);
+            });
+
+
+            // Inicializar la carga de facturas al cargar la página (opcional, si quieres verlas al inicio)
+            // cargarFacturasEnTabla(); 
+        });
+    </script>
+</body>
+</html>

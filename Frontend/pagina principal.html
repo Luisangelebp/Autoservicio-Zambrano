@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto Servicios Zambrano - Panel de Control</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1><i class="fas fa-tools"></i> Auto Servicios Zambrano</h1>
+        <nav>
+            <div class="nav-buttons">
+                <a href="login.html" class="nav-button" id="loginBtn"><i class="fas fa-sign-in-alt"></i> Entrar</a>
+                <a href="register.html" class="nav-button" id="registerBtn"><i class="fas fa-user-plus"></i> Registro</a>
+                <a href="password-recovery.html" class="nav-button"><i class="fas fa-key"></i> Recuperar</a>
+
+                <div id="userOptions" style="display: none;">
+                    <a href="#" class="nav-button"><i class="fas fa-calendar-alt"></i> Citas</a>
+                    <a href="#" class="nav-button"><i class="fas fa-store"></i> Repuestos</a>
+                    <a href="#" class="nav-button"><i class="fas fa-money-check-alt"></i> Pagos</a>
+                    <a href="#" class="nav-button" id="btnChat"><i class="fas fa-comments"></i> Soporte</a>
+                </div>
+
+                <div id="adminOptions" style="display: none;">
+                    <a href="#" class="nav-button"><i class="fas fa-eye"></i> Ver Citas</a>
+                    <a href="#" class="nav-button"><i class="fas fa-chart-line"></i> Finanzas</a>
+                    <a href="#" class="nav-button"><i class="fas fa-file-invoice"></i> Facturación</a>
+                    <a href="#" class="nav-button" id="btnChatAdmin"><i class="fas fa-headset"></i> Mensajes</a>
+                </div>
+
+                <button id="logoutBtn" class="nav-button logout-button" style="display: none;"><i class="fas fa-power-off"></i> Salir</button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="contentSection">
+            <div id="dynamicContent">
+                <i class="fas fa-car-side" style="font-size: 4rem; color: var(--primary); margin-bottom: 20px;"></i>
+                <h2>Bienvenido al Portal</h2>
+                <p>Seleccione una opción del menú superior para comenzar a gestionar sus servicios automotrices de manera rápida y segura.</p>
+            </div>
+        </section>
+
+        <div id="chatContainer" class="chat-container">
+            <div class="chat-header">
+                <span><i class="fas fa-comment-dots"></i> Chat en Vivo</span>
+                <button id="closeChatBtn" style="background:none; border:none; color:inherit; font-size:1.5rem; cursor:pointer;">&times;</button>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                </div>
+            <div class="chat-input">
+                <input type="text" id="chatInput" placeholder="Consulta técnica...">
+                <button id="sendChatBtn"><i class="fas fa-paper-plane" style="color:var(--secondary)"></i></button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Auto Servicios Zambrano • Calidad Automotriz Certificada</p>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+</html>

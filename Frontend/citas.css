@@ -1,0 +1,387 @@
+/* Tu código CSS permanece exactamente igual que antes. */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    background: linear-gradient(135deg, #aaaaaa 0%, #000000 100%); /* Degradado suave */
+    color: #a71c1c;
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    background-color: #ffa600; /* color barra de arriba */
+    color: rgb(11, 11, 11);
+    padding: 25px 0;
+    text-align: center;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    animation: fadeInDown 0.8s ease-out;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 3em;
+    letter-spacing: 1px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+header p {
+    font-size: 1.2em;
+    margin-top: 10px;
+    opacity: 0.9;
+}
+
+main {
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 35px;
+    padding: 35px;
+    max-width: 1400px;
+    margin: 35px auto;
+    justify-content: center; /* Centra las secciones */
+}
+
+section {
+    background-color: rgb(255, 255, 255); 
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15); /* Sombra más pronunciada */
+    transition: transform 0.3s ease-in-out;
+    flex: 1;
+    min-width: 380px; /* Ancho mínimo para cada sección */
+    max-width: 600px; /* Ancho máximo para cada sección */
+}
+
+section:hover {
+    transform: translateY(-8px); /* Efecto de levitar al pasar el mouse */
+}
+
+h2 {
+    color: #000000;
+    font-size: 2.5em;
+    margin-top: 0;
+    margin-bottom: 25px;
+    padding-bottom: 12px;
+    border-bottom: 4px solid #ffc800; /* rayita de abajo de NEVA CITA */
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    animation: slideInLeft 0.7s ease-out;
+}
+
+h2 i {
+    color: #0033ff; /* icono de mis citas :V*/
+    font-size: 1.1em;
+}
+
+/* Formulario de Citas */
+#formulario-cita form {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #000000;
+    font-size: 1.1em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.input-group textarea {
+    width: calc(100% - 24px); /* Ancho completo con padding */
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1.05em;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08); /* Sombra interna suave */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    resize: vertical; /* Permite redimensionar verticalmente */
+    min-height: 80px; /* Altura mínima */
+}
+/*colores para los iconos*/
+.input-group label i {
+    color: #1500ff;
+}
+
+.input-group input,
+.input-group select {
+    width: calc(100% - 24px); /* Ancho completo con padding */
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1.05em;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08); /* Sombra interna suave */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+    border-color: #ff0000;   /* color para seleccion de casilla*/
+    box-shadow: 0 0 0 3px rgba(255, 221, 0, 0.3); /* Sombra de enfoque azul */
+    outline: none;
+}
+
+/* Estilos para el botón Agendar Cita */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 15px 25px;
+    border: none;
+    border-radius: 10px; /* Bordes más redondeados */
+    cursor: pointer;
+    font-size: 1.2em;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    margin-top: 25px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.primary-btn {
+    background-color: #ffcc00; /*  para acción principal */
+    color: rgb(0, 0, 0);
+}
+
+.primary-btn:hover {
+    background-color: #e013a6;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(110, 238, 6, 0.4); /*para sombra de boton de agendar al poner cursor sobre el*/
+}
+
+.secondary-btn {
+    background-color: #ffc800; /* color para boton de atras */
+    color: rgb(0, 0, 0);
+    margin-top: 15px; /* Espacio debajo del botón principal */
+}
+
+.secondary-btn:hover {
+    background-color: #ff00b7;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(255, 0, 196, 0.4);
+}
+
+/* Mensajes (éxito/error/info) */
+.message {
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.message.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.message.info {
+    background-color: #d1ecf1;
+    color: #34afc5;
+    border: 1px solid #bee5eb;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Lista de Citas Agendadas */
+#citasAgendadas {
+    min-height: 150px;
+    max-height: 500px; /* Altura máxima para scroll */
+    overflow-y: auto;
+    padding-right: 10px; /* Espacio para la barra de scroll */
+}
+
+.cita-item {
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-left: 5px solid #3498db; /* Borde azul para destacar */
+    padding: 15px 20px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.07);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: relative;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.cita-item:last-child {
+    margin-bottom: 0;
+}
+
+.cita-item p {
+    margin: 0;
+    font-size: 1.05em;
+    color: #444;
+}
+
+.cita-item p strong {
+    color: #030303;
+}
+
+.cita-item .acciones {
+    display: flex;
+    justify-content: flex-end; /* Alinea los botones a la derecha */
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.cita-item .acciones button {
+    background: none;
+    border: 1px solid;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s ease;
+}
+
+.cita-item .acciones .eliminar-cita {
+    color: #e74c3c;
+    border-color: #e74c3c;
+}
+
+.cita-item .acciones .eliminar-cita:hover {
+    background-color: #e74c3c;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.cita-item .acciones .completar-cita {
+    color: #28a74c;
+    border-color: #28a74c;
+}
+
+.cita-item .acciones .completar-cita:hover {
+    background-color: #28a74c;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.empty-list-message {
+    color: #777;
+    font-style: italic;
+    text-align: center;
+    padding: 40px 10px;
+    font-size: 1.1em;
+}
+
+footer {
+    background-color: #fcbb00;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-top: auto;
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Animaciones CSS */
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInLeft {
+    from { opacity: 0; transform: translateX(-30px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Media Queries para Responsividad */
+@media (max-width: 992px) {
+    main {
+        flex-direction: column;
+        padding: 25px;
+        gap: 25px;
+    }
+
+    section {
+        min-width: unset; /* Quita el min-width para adaptarse mejor */
+        max-width: 100%; /* Ocupa todo el ancho disponible */
+    }
+
+    header h1 {
+        font-size: 2.5em;
+    }
+
+    h2 {
+        font-size: 2em;
+    }
+
+    .input-group input,
+    .input-group select {
+        width: calc(100% - 20px);
+    }
+}
+
+@media (max-width: 600px) {
+    header {
+        padding: 20px 15px;
+    }
+    header h1 {
+        font-size: 2em;
+    }
+    header p {
+        font-size: 1em;
+    }
+    main {
+        padding: 20px;
+    }
+    section {
+        padding: 20px;
+    }
+    h2 {
+        font-size: 1.8em;
+        gap: 10px;
+    }
+    .input-group label {
+        font-size: 1em;
+    }
+    .input-group input,
+    .input-group select {
+        padding: 10px;
+        font-size: 1em;
+    }
+    .btn {
+        padding: 12px 20px;
+        font-size: 1.1em;
+    }
+    .cita-item {
+        padding: 12px 15px;
+        font-size: 0.95em;
+    }
+    .cita-item .acciones button {
+        padding: 6px 10px;
+        font-size: 0.85em;
+    }
+}

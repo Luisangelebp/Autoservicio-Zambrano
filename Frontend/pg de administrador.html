@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Admin - Gestión Integral - Autoservicio Zambrano</title>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Poppins:wght@400;600;700&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="style-adm.css" />
+    </head>
+    <body>
+        <header class="app-header">
+            <div class="header-content">
+                <h1>
+                    <i class="fas fa-user-shield"></i> Autoservicio Zambrano -
+                    Admin
+                </h1>
+                <nav>
+                    <a href="ver_citas.html" class="nav-link"
+                        ><i class="fas fa-calendar-check"></i> Ver Citas</a
+                    >
+                    <a href="contabilidad.html" class="nav-link"
+                        ><i class="fas fa-calculator"></i> Contabilidad
+                        Mecánicos</a
+                    >
+                    <a href="registro_servicio.html" class="nav-link"
+                        ><i class="fas fa-tools"></i> Registrar Servicio</a
+                    >
+                    <a href="facturacion.html" class="nav-link"
+                        ><i class="fas fa-file-invoice"></i> Facturación
+                        Diaria</a
+                    >
+                    <button id="logoutBtn" class="btn secondary-btn">
+                        <i class="fas fa-sign-out-alt"></i> Salir
+                    </button>
+                </nav>
+            </div>
+        </header>
+
+        <main class="app-main">
+            <section class="user-section">
+                <h2>
+                    <i class="fas fa-users-cog"></i> Gestión de Personal y
+                    Clientes
+                </h2>
+
+                <div class="user-management-grid">
+                    <div class="user-form">
+                        <h3 id="formTitle">Registrar Nuevo</h3>
+                        <p
+                            style="
+                                font-size: 0.8rem;
+                                color: #666;
+                                margin-bottom: 15px;
+                            "
+                        >
+                            Seleccione el rol para habilitar los campos
+                            correspondientes.
+                        </p>
+
+                        <form id="userForm">
+                            <input type="hidden" id="userId" />
+
+                            <div class="form-group">
+                                <label>Rol</label>
+                                <select id="userRole">
+                                    <option value="Administrador">
+                                        Administrador
+                                    </option>
+                                    <option value="Mecánico">Mecánico</option>
+                                    <option value="Cliente">Cliente</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Nombre</label>
+                                <input
+                                    type="text"
+                                    id="userName"
+                                    placeholder="Nombre"
+                                    required
+                                />
+                            </div>
+
+                            <div class="form-group">
+                                <label>Apellido</label>
+                                <input
+                                    type="text"
+                                    id="userLastName"
+                                    placeholder="Apellido"
+                                    required
+                                />
+                            </div>
+
+                            <div id="adminFields" class="fade-in">
+                                <div class="form-group">
+                                    <label>Cédula</label>
+                                    <input
+                                        type="text"
+                                        id="userCedula"
+                                        placeholder="V-12345678"
+                                    />
+                                </div>
+                                <div class="form-group">
+                                    <label>Correo Electrónico</label>
+                                    <input
+                                        type="email"
+                                        id="userEmail"
+                                        placeholder="admin@zambrano.com"
+                                    />
+                                </div>
+                                <div class="form-group">
+                                    <label>Contraseña</label>
+                                    <input
+                                        type="password"
+                                        id="userPass"
+                                        placeholder="********"
+                                    />
+                                </div>
+                            </div>
+
+                            <div
+                                id="mechFields"
+                                class="fade-in"
+                                style="display: none"
+                            >
+                                <div class="form-group">
+                                    <label>Especialidad</label>
+                                    <select id="userEspecialidad">
+                                        <option value="Motores">Motores</option>
+                                        <option value="Electricidad">
+                                            Electricidad
+                                        </option>
+                                        <option value="Frenos/Suspensión">
+                                            Frenos y Suspensión
+                                        </option>
+                                        <option value="Latonería">
+                                            Latonería y Pintura
+                                        </option>
+                                        <option value="General">
+                                            Mecánica General
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div
+                                id="clientFields"
+                                class="fade-in"
+                                style="display: none"
+                            >
+                                <div class="form-group">
+                                    <label>Teléfono</label>
+                                    <input
+                                        type="text"
+                                        id="userPhone"
+                                        placeholder="0412-0000000"
+                                    />
+                                </div>
+                                <div class="form-group">
+                                    <label>Dirección</label>
+                                    <textarea
+                                        id="userAddress"
+                                        rows="2"
+                                        placeholder="Dirección de residencia"
+                                    ></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-actions">
+                                <button
+                                    type="submit"
+                                    class="btn btn-success"
+                                    style="flex: 1"
+                                >
+                                    <i class="fas fa-save"></i>
+                                    <span id="saveBtnText"
+                                        >Guardar Registro</span
+                                    >
+                                </button>
+                                <button
+                                    type="button"
+                                    id="cancelEdit"
+                                    class="btn"
+                                    style="display: none"
+                                >
+                                    Cancelar
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Nombre Completo</th>
+                                    <th>Rol</th>
+                                    <th>Información Adicional</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="userTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+        <script src="script.js"></script>
+    </body>
+</html>
