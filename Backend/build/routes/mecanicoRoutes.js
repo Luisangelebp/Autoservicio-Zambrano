@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const mecanicosControllers_1 = require("../controllers/mecanicosControllers");
+const express_1 = require("express");
+const router = (0, express_1.Router)();
+router.get('/', mecanicosControllers_1.getMecanicos);
+router.get('/:id', mecanicosControllers_1.getMecanicoById);
+router.post('/', mecanicosControllers_1.createMecanico);
+router.put('/:id', mecanicosControllers_1.updateMecanico);
+router.delete('/:id', mecanicosControllers_1.deleteMecanico);
+exports.default = router;

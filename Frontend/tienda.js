@@ -123,27 +123,43 @@ document.addEventListener('DOMContentLoaded', () => {
         const productoSeleccionado = productos.find((p) => p.id === productoId);
         if (!productoSeleccionado) return;
 
-        const itemEnCarrito = carrito.find((item) => item.id === productoId);
-        const cantidadEnCarrito = itemEnCarrito ? itemEnCarrito.cantidad : 0;
+        let itemEnCarrito = carrito.find((item) => item.id === productoId);
 
-        if (cantidadEnCarrito < productoSeleccionado.cant) {
-            if (itemEnCarrito) {
+        if (carrito.length > 0 && !itemEnCarrito) {
+            // If cart is not empty and the new product is different from the existing one
+            const oldProductId = carrito[0].id; // Get the ID of the product currently in the cart
+            carrito = []; // Clear the cart
+            actualizarStockDisplay(oldProductId); // Update stock display for the removed product
+            carrito.push({ ...productoSeleccionado, cantidad: 1 });
+            mostrarMensaje(
+                `"${productoSeleccionado.nombre}" ha reemplazado el artículo anterior en el carrito.`,
+                'info'
+            );
+        } else if (itemEnCarrito) {
+            // If the product is already in the cart (or it's the first item being added and it's the same as the one being added)
+            if (itemEnCarrito.cantidad < productoSeleccionado.cant) {
                 itemEnCarrito.cantidad++;
+                mostrarMensaje(
+                    `"${productoSeleccionado.nombre}" añadido al carrito.`,
+                    'success'
+                );
             } else {
-                carrito.push({ ...productoSeleccionado, cantidad: 1 });
+                mostrarMensaje(
+                    `No hay más stock disponible para "${productoSeleccionado.nombre}".`,
+                    'error'
+                );
             }
+        } else {
+            // If cart is empty, add the product
+            carrito.push({ ...productoSeleccionado, cantidad: 1 });
             mostrarMensaje(
                 `"${productoSeleccionado.nombre}" añadido al carrito.`,
                 'success'
             );
-            actualizarCarritoUI();
-            actualizarStockDisplay(productoId);
-        } else {
-            mostrarMensaje(
-                `No hay más stock disponible para "${productoSeleccionado.nombre}".`,
-                'error'
-            );
         }
+
+        actualizarCarritoUI();
+        actualizarStockDisplay(productoId);
     };
 
     const removerDelCarrito = (productoId) => {

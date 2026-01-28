@@ -35,8 +35,9 @@ async function getCitas() {
         const data = await response.data;
         const citaByClienteId = data.filter(
             (cita) =>
-                cita.id_cliente === JSON.parse(localStorage.getItem('user')).id
+                cita.id_cliente === JSON.parse(localStorage.getItem('user')).id,
         );
+
         return data;
     } catch (error) {
         console.error('Error fetching appointments:', error);
@@ -58,6 +59,9 @@ async function eliminarCita(citaId) {
         alert('Error al eliminar la cita');
     }
 }
+function pagarCita() {
+    window.location.href = 'pago.html';
+}
 getCitas().then(async (data) => {
     const citasList = document.getElementById('citasAgendadas');
     let Cmecanicos = [];
@@ -68,11 +72,11 @@ getCitas().then(async (data) => {
         citasList.innerHTML = '';
         let citaidsByClienteId = data.filter(
             (cita) =>
-                cita.id_cliente === JSON.parse(localStorage.getItem('user')).id
+                cita.id_cliente === JSON.parse(localStorage.getItem('user')).id,
         );
         citaidsByClienteId.forEach((cita) => {
             const CitaItemMecanico = Cmecanicos.find(
-                (mecanico) => mecanico.id === cita.id_mecanico
+                (mecanico) => mecanico.id === cita.id_mecanico,
             );
             const citaItem = document.createElement('div');
             citaItem.classList.add('cita-item');
@@ -84,6 +88,7 @@ getCitas().then(async (data) => {
                 <p><strong>Estado:</strong> ${cita.estado}</p>
                 <div class="acciones">
                     <button class="eliminar-cita" onclick="eliminarCita('${cita.id}')"><i class="fas fa-trash-alt"></i> Eliminar</button>
+                    <button class="pagar-cita ${cita.estado !== 'confirmada' ? 'disabled' : ''}" onclick="pagarCita()"><i class="fas fa-money-bill-wave"></i> Pagar</button>
                 </div>
             `;
             citasList.appendChild(citaItem);
@@ -117,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         'Content-Type': 'application/json',
                         authorization: token,
                     },
-                }
+                },
             );
             alert('Cita agendada con éxito');
             citaForm.reset();

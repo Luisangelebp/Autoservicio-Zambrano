@@ -40,8 +40,8 @@ export async function createCita(req: Request, res: Response) {
 
   try {
     const result = await db.run(
-      `INSERT INTO citas (id_cliente, id_mecanico, fecha, descripcion, servicio, estado)
-       VALUES (?, ?, ?, ?, ?, ?)`,
+      `INSERT INTO citas (id_cliente, id_mecanico, fecha, descripcion, servicio, estado, monto)
+       VALUES (?, ?, ?, ?, ?, ?, 0)`,
       [id_cliente, id_mecanico, fecha, descripcion || "", servicio, estado || "pendiente"]
     );
 
@@ -52,7 +52,8 @@ export async function createCita(req: Request, res: Response) {
       fecha,
       descripcion,
       servicio,
-      estado: estado || "pendiente"
+      estado: estado || "pendiente",
+      monto:0,
     };
 
     return res.status(201).json({
@@ -68,14 +69,14 @@ export async function createCita(req: Request, res: Response) {
 // Actualizar cita
 export async function updateCita(req: Request, res: Response) {
   const { id } = req.params;
-  const { id_cliente, id_mecanico, fecha, descripcion, servicio, estado }: Cita = req.body;
+  const { id_cliente, id_mecanico, fecha, descripcion, servicio, estado, monto }: Cita = req.body;
 
   try {
     const result = await db.run(
       `UPDATE citas
-       SET id_cliente = ?, id_mecanico = ?, fecha = ?, descripcion = ?, servicio = ?, estado = ?
+       SET id_cliente = ?, id_mecanico = ?, fecha = ?, descripcion = ?, servicio = ?, estado = ?, monto = ?
        WHERE id = ?`,
-      [id_cliente, id_mecanico, fecha, descripcion, servicio, estado, id]
+      [id_cliente, id_mecanico, fecha, descripcion, servicio, estado, monto, id]
     );
 
     if (result.changes === 0) {
@@ -105,4 +106,52 @@ export async function deleteCita(req: Request, res: Response) {
     console.error(error);
     return res.status(500).json({ message: "Error en el servidor" });
   }
+}
+
+// Cambiar estado de cita y monto
+
+export async function cambiarEstadoCita(req: Request, res: Response) {
+  const { id } = req.params;
+  const { estado } = req.body;
+  if (!estado) {
+    return res.status(400).json({ message: "Faltan campos obligatorios" });
+  }
+  try {
+    const result = await db.run(
+      `UPDATE citas
+       SET estado = ?
+       WHERE id = ?`,
+      [estado, id]
+    );
+    if (result.changes === 0) { 
+      return res.status(404).json({ message: "Cita no encontrada" });
+    }
+    return res.json({ message: "Estado de cita actualizado exitosamente 🚀" });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Error en el servidor" });
+  }
+}
+
+export async function cambiarMontoCita(req: Request, res: Response) {
+  const { id } = req.params;
+  const { monto } = req.body;
+  if (!monto) {
+    return res.status(400).json({ message: "Faltan campos obligatorios" });
+  }
+  try {
+    const result = await db.run(
+      `UPDATE citas
+       SET monto = ?
+       WHERE id = ?`,
+      [monto, id]
+    );
+    if (result.changes === 0) { 
+      return res.status(404).json({ message: "Cita no encontrada" });
+    }
+    return res.json({ message: "Monto de cita actualizado exitosamente 🚀" });
+  } catch (error) {
+    return res.status(500).json({ message: "Error en el servidor" });
+  }
+
 }

@@ -1,59 +1,61 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pagar Repuesto - Servicio Mecánico</title>
-    <link rel="stylesheet" href="pago.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-</head>
-<body>
-    <header>
-        <h1>Pagar Repuesto</h1>
-    </header>
-
-    <main>
-        <section id="pago">
-            <form id="formPago">
-                <div class="input-group">
-                    <label for="nombre">Nombre completo:</label>
-                    <input type="text" id="nombre" placeholder="Solo letras, máximo 25 caracteres" pattern="[a-zA-Z\s]{1,25}" maxlength="25" required>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Pagar - Servicio Mecánico</title>
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+        />
+        <link rel="stylesheet" href="pago.css" />
+    </head>
+    <body>
+        <main>
+            <section id="selector">
+                <div class="Titlecontainer">
+                    <h2>Citas</h2>
+                    <section class="container citaContainer"></section>
                 </div>
-
-                <div class="input-group">
-                    <label for="correo">Correo Electrónico:</label>
-                    <input type="email" id="correo" placeholder="tu.correo@ejemplo.com" required>
+                <div class="Titlecontainer">
+                    <h2>Carrito</h2>
+                    <section class="container carroContainer"></section>
                 </div>
-
-                <div class="input-group">
-                    <label for="telefono">Teléfono:</label>
-                    <input type="tel" id="telefono" placeholder="Ej: 04121234567 (11 dígitos, solo números)" pattern="\d{11}" maxlength="11" required>
+            </section>
+            <aside id="pago">
+                <h3>Metodo de Pago</h3>
+                <div id="pago-info"></div>
+                <div id="pago-buttons">
+                    <button id="efectivo-btn">Efectivo</button>
+                    <button id="tarjeta-btn">Tarjeta</button>
+                    <button id="pago-movil-btn">Pago Movil</button>
                 </div>
-
-                <div class="input-group">
-                    <label>Selecciona Método de Pago:</label>
-                    <div id="metodoPagoButtons">
-                        <button type="button" class="option-btn" data-metodo="pago_movil"><i class="fas fa-mobile-alt"></i> Pago Móvil</button>
-                        <button type="button" class="option-btn" data-metodo="qr"><i class="fas fa-qrcode"></i> Pago QR</button>
-                    </div>
-                    <input type="hidden" id="metodoPago" name="metodoPago" required>
+                <div id="pago-movil-info" style="display: none">
+                    <p>banco: Venezuela</p>
+                    <p>Telefono: 04140000000</p>
+                    <p>cedula: V00000000</p>
                 </div>
+                <form id="pago-movil-form" style="display: none">
+                    <label for="fecha">Fecha:</label>
+                    <input type="date" id="fecha" name="fecha" required />
+                    <label for="referencia">Referencia:</label>
+                    <input
+                        type="text"
+                        id="referencia"
+                        name="referencia"
+                        required
+                    />
+                    <label for="monto">Monto:</label>
+                    <input type="number" id="monto" name="monto" required />
+                    <label for="banco">Banco:</label>
+                    <select id="banco" name="banco" required></select>
+                    <button type="submit">Pagar</button>
+                </form>
+            </aside>
+        </main>
+        <button id="regresar-btn"><i class="bi bi-arrow-left"></i></button>
 
-                <div id="camposDinamicos">
-                </div>
-
-                <div class="input-group">
-                    <label for="monto">Monto a Pagar:</label>
-                    <input type="text" id="monto" placeholder="Ingresa la cantidad a pagar (Bs.D)" inputmode="decimal" pattern="^\d+(\.\d{1,2})?$" required>
-                </div>
-
-                <button type="submit" class="btn primary-btn"><i class="fas fa-dollar-sign"></i> Realizar Pago</button>
-                <p id="mensajePago" class="message" style="display:none;"></p>
-                <button type="button" id="btnAtras" class="btn secondary-btn"><i class="fas fa-arrow-left"></i> Atrás</button>
-            </form>
-        </section>
-    </main>
-    </footer>
-    <script src="pago.js"></script>
-</body>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="pago.js"></script>
+    </body>
 </html>

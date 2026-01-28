@@ -273,16 +273,20 @@ h2 i {
     transform: translateY(-2px);
 }
 
-.cita-item .acciones .completar-cita {
+.cita-item .acciones .pagar-cita{
     color: #28a74c;
     border-color: #28a74c;
 }
-
-.cita-item .acciones .completar-cita:hover {
-    background-color: #28a74c;
-    color: white;
+.cita-item .acciones .pagar-cita:hover{
+    background-color: #249644;
+    color:white;
     transform: translateY(-2px);
+    border-color: #145727;
 }
+.cita-item .acciones .pagar-cita.disabled{
+    display: none;
+}
+
 
 .empty-list-message {
     color: #777;

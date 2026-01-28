@@ -1,0 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const citasControllers_1 = require("../controllers/citasControllers");
+const router = (0, express_1.Router)();
+router.get("/", citasControllers_1.getCitas);
+router.get("/:id", citasControllers_1.getCitaById);
+router.post("/", citasControllers_1.createCita);
+router.put("/:id", citasControllers_1.updateCita);
+router.delete("/:id", citasControllers_1.deleteCita);
+router.patch("/estado/:id", citasControllers_1.cambiarEstadoCita);
+router.patch("/monto/:id", citasControllers_1.cambiarMontoCita);
+exports.default = router;

@@ -25,9 +25,10 @@ export async function getCarritos(req: Request, res: Response) {
 
 // Obtener carrito por ID con sus productos
 export async function getCarritoById(req: Request, res: Response) {
-  const { id } = req.params;
+  const { clienteId } = req.params;
   try {
-    const carrito = await db.get("SELECT * FROM carritos WHERE id = ?", [id]);
+    const carrito = await db.get("SELECT * FROM carritos WHERE clienteId = ?", [clienteId]);
+    const id = carrito.id;
 
     if (!carrito) {
       return res.status(404).json({ message: "Carrito no encontrado" });
@@ -55,6 +56,18 @@ export async function createCarrito(req: Request, res: Response) {
   }
 
   try {
+    // Verificar si el cliente ya tiene un carrito
+    const existingCarrito = await db.get(
+      "SELECT id FROM carritos WHERE clienteId = ?",
+      [clienteId]
+    );
+
+    if (existingCarrito) {
+      return res
+        .status(409)
+        .json({ message: "El cliente ya tiene un carrito existente" });
+    }
+
     const result = await db.run(
       "INSERT INTO carritos (clienteId) VALUES (?)",
       [clienteId]
