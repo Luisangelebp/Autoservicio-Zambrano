@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Referencias a elementos del DOM
     const listaProductosDiv = document.getElementById('lista-productos');
     const itemsSeleccionadosDiv = document.getElementById(
-        'items-seleccionados'
+        'items-seleccionados',
     );
     const totalCompraSpan = document.getElementById('total-compra');
     const btnPagar = document.getElementById('btn-pagar');
@@ -12,6 +12,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let productos = [];
     let carrito = [];
+    let clienteId = null;
+    const userData = localStorage.getItem('user');
+    if (userData) {
+        try {
+            clienteId = JSON.parse(userData).id;
+        } catch (e) {
+            console.error('Error parsing user data from localStorage:', e);
+        }
+    }
+    if (!clienteId) {
+        console.warn(
+            'Cliente ID not found in localStorage. Using placeholder ID 1.',
+        );
+        clienteId = 1; // Fallback to placeholder
+    }
+    let carritoId = null; // Stores the ID of the current shopping cart
 
     // --- Funciones de la tienda ---
 
@@ -24,12 +40,129 @@ document.addEventListener('DOMContentLoaded', () => {
                 },
             });
             productos = await response.data;
+            productos = productos.map((p) => ({ ...p, cant: Number(p.cant) })); // Ensure cant is a number
             renderProductos(productos);
         } catch (error) {
             console.error('Error al cargar los productos:', error);
             mostrarMensaje(
                 'No se pudieron cargar los productos. Intente más tarde.',
-                'error'
+                'error',
+            );
+        }
+    }
+
+    // New function to initialize or load the shopping cart
+    async function inicializarCarrito() {
+        try {
+            const response = await axios.get(
+                `http://localhost:8000/carrito/${clienteId}`,
+                {
+                    headers: {
+                        authorization: 12345,
+                    },
+                },
+            );
+
+            if (response.data && response.data.id) {
+                carritoId = response.data.id;
+                const serverCartItems = response.data.productos || []; // Use .productos as clarified
+                carrito = serverCartItems
+                    .map((serverItem) => {
+                        const product = productos.find(
+                            (p) => p.id === serverItem.itemId,
+                        );
+                        if (product) {
+                            return {
+                                ...product,
+                                cantidad: Number(serverItem.cantidad) || 0,
+                            }; // Map server 'cant' to local 'cantidad', default to 0 if NaN
+                        } else {
+                            console.warn(
+                                'Product not found for itemId:',
+                                serverItem.itemId,
+                                'in server cart.',
+                            );
+                            return null; // Filter out products not found
+                        }
+                    })
+                    .filter((item) => item !== null);
+                mostrarMensaje('Carrito existente cargado.', 'info');
+            }
+        } catch (error) {
+            if (error.response && error.response.status === 404) {
+                // Cart not found, create a new one
+                try {
+                    const createResponse = await axios.post(
+                        'http://localhost:8000/carrito',
+                        {
+                            clienteId: clienteId,
+                            productos: [],
+                        },
+                        {
+                            headers: {
+                                authorization: 12345,
+                                'Content-Type': 'application/json',
+                            },
+                        },
+                    );
+                    carritoId = createResponse.data.id;
+                    carrito = [];
+                    mostrarMensaje('Nuevo carrito creado.', 'info');
+                } catch (createError) {
+                    console.error('Error al crear el carrito:', createError);
+                    mostrarMensaje(
+                        'Error al crear el carrito. Intente más tarde.',
+                        'error',
+                    );
+                }
+            } else {
+                console.error('Error al cargar el carrito:', error);
+                mostrarMensaje(
+                    'Error al cargar el carrito. Intente más tarde.',
+                    'error',
+                );
+            }
+        } finally {
+            actualizarCarritoUI();
+            carrito.forEach((item) => actualizarStockDisplay(item.id));
+        }
+    }
+
+    // New function to update the cart on the server
+    async function actualizarCarritoEnServidor() {
+        if (!carritoId) {
+            console.error('No carritoId disponible para actualizar.');
+            return;
+        }
+        let productosToSend = carrito.map((item) => ({
+            itemId: item.id,
+            cantidad: item.cantidad,
+        }));
+
+        try {
+            await axios.put(
+                `http://localhost:8000/carrito/${carritoId}`,
+                {
+                    id: carritoId,
+                    clienteId: clienteId,
+                    productos: productosToSend,
+                },
+                {
+                    headers: {
+                        authorization: 12345,
+                        'Content-Type': 'application/json',
+                    },
+                },
+            );
+            // mostrarMensaje('Carrito actualizado en el servidor.', 'success'); // Optional: too many messages
+        } catch (error) {
+            console.error(
+                'Error al actualizar el carrito en el servidor:',
+                error,
+            );
+            mostrarMensaje(
+                'Error al sincronizar el carrito con el servidor.',
+                'error',
             );
         }
     }
@@ -45,17 +178,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 <p class="descripcion">${producto.descripcion}</p>
                 <p class="precio">${producto.precio} Bs.D</p>
                 <p class="stock" id="stock-${producto.id}">Stock: ${
-                producto.cant
-            }</p>
+                    producto.cant
+                }</p>
                 <button data-id="${producto.id}" ${
-                producto.cant === 0 ? 'disabled' : ''
-            }><i class="fas fa-cart-plus"></i> Añadir al Carrito</button>
+                    producto.cant === 0 ? 'disabled' : ''
+                }><i class="fas fa-cart-plus"></i> Añadir al Carrito</button>
             `;
             listaProductosDiv.appendChild(productoCard);
 
             if (producto.cant === 0) {
                 const stockDisplay = productoCard.querySelector(
-                    `#stock-${producto.id}`
+                    `#stock-${producto.id}`,
                 );
                 if (stockDisplay) stockDisplay.style.color = 'red';
             }
@@ -67,7 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const itemEnCarrito = carrito.find((item) => item.id === productoId);
         const stockDisplay = document.getElementById(`stock-${productoId}`);
         const addButton = listaProductosDiv.querySelector(
-            `button[data-id='${productoId}']`
+            `button[data-id='${productoId}']`,
         );
 
         if (producto && stockDisplay) {
@@ -99,6 +232,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             emptyCartMessage.style.display = 'none';
             btnPagar.disabled = false;
+            console.log('Carrito actualizado:', carrito); // Log the updated cart
             carrito.forEach((item) => {
                 const itemResumen = document.createElement('div');
                 itemResumen.classList.add('item-resumen');
@@ -107,7 +241,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <span class="cantidad">x${item.cantidad}</span>
                     <span class="precio-item">${(
                         item.precio * item.cantidad
-                    ).toFixed(2)} Bs.D</span>
+                    ).toFixed(2)} Bs</span>
                     <button class="remove-item" data-id="${
                         item.id
                     }"><i class="fas fa-trash-alt"></i></button>
@@ -119,50 +253,35 @@ document.addEventListener('DOMContentLoaded', () => {
         totalCompraSpan.textContent = total.toFixed(2);
     };
 
-    const agregarAlCarrito = (productoId) => {
+    const agregarAlCarrito = async (productoId) => {
         const productoSeleccionado = productos.find((p) => p.id === productoId);
         if (!productoSeleccionado) return;
 
-        let itemEnCarrito = carrito.find((item) => item.id === productoId);
+        const itemEnCarrito = carrito.find((item) => item.id === productoId);
+        const cantidadEnCarrito = itemEnCarrito ? itemEnCarrito.cantidad : 0;
 
-        if (carrito.length > 0 && !itemEnCarrito) {
-            // If cart is not empty and the new product is different from the existing one
-            const oldProductId = carrito[0].id; // Get the ID of the product currently in the cart
-            carrito = []; // Clear the cart
-            actualizarStockDisplay(oldProductId); // Update stock display for the removed product
-            carrito.push({ ...productoSeleccionado, cantidad: 1 });
-            mostrarMensaje(
-                `"${productoSeleccionado.nombre}" ha reemplazado el artículo anterior en el carrito.`,
-                'info'
-            );
-        } else if (itemEnCarrito) {
-            // If the product is already in the cart (or it's the first item being added and it's the same as the one being added)
-            if (itemEnCarrito.cantidad < productoSeleccionado.cant) {
+        if (cantidadEnCarrito < productoSeleccionado.cant) {
+            if (itemEnCarrito) {
                 itemEnCarrito.cantidad++;
-                mostrarMensaje(
-                    `"${productoSeleccionado.nombre}" añadido al carrito.`,
-                    'success'
-                );
             } else {
-                mostrarMensaje(
-                    `No hay más stock disponible para "${productoSeleccionado.nombre}".`,
-                    'error'
-                );
+                carrito.push({ ...productoSeleccionado, cantidad: 1 });
             }
-        } else {
-            // If cart is empty, add the product
-            carrito.push({ ...productoSeleccionado, cantidad: 1 });
             mostrarMensaje(
                 `"${productoSeleccionado.nombre}" añadido al carrito.`,
-                'success'
+                'success',
+            );
+            actualizarCarritoUI();
+            actualizarStockDisplay(productoId);
+            await actualizarCarritoEnServidor(); // Update server after local change
+        } else {
+            mostrarMensaje(
+                `No hay más stock disponible para "${productoSeleccionado.nombre}".`,
+                'error',
             );
         }
-
-        actualizarCarritoUI();
-        actualizarStockDisplay(productoId);
     };
 
-    const removerDelCarrito = (productoId) => {
+    const removerDelCarrito = async (productoId) => {
         const itemIndex = carrito.findIndex((item) => item.id === productoId);
         if (itemIndex > -1) {
             const nombreItem = carrito[itemIndex].nombre;
@@ -170,7 +289,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 carrito[itemIndex].cantidad--;
                 mostrarMensaje(
                     `Una unidad de "${nombreItem}" removida.`,
-                    'info'
+                    'info',
                 );
             } else {
                 carrito.splice(itemIndex, 1);
@@ -178,6 +297,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             actualizarCarritoUI();
             actualizarStockDisplay(productoId);
+            await actualizarCarritoEnServidor(); // Update server after local change
         }
     };
 
@@ -201,54 +321,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     btnPagar.addEventListener('click', async () => {
         if (carrito.length > 0) {
-            const total = parseFloat(totalCompraSpan.textContent);
-            const clienteId = 1; // Placeholder for customer ID
-
-            const payload = {
-                clienteId: clienteId,
-                productos: carrito.map((item) => ({
-                    itemId: item.id,
-                    cantidad: item.cantidad,
-                })),
-            };
-
-            try {
-                const response = await axios.post(
-                    'http://localhost:8000/carrito',
-                    payload,
-                    {
-                        headers: {
-                            'Content-Type': 'application/json',
-                            authorization: 12345,
-                        },
-                    }
-                );
-
-                if (response.status === 200 || response.status === 201) {
-                    let nombreRepuestoParaPago =
-                        carrito.length === 1
-                            ? carrito[0].nombre
-                            : `Varios Repuestos (${carrito.length} ítems)`;
-
-                    sessionStorage.setItem('montoAPagar', total.toFixed(2));
-                    sessionStorage.setItem(
-                        'nombreRepuesto',
-                        nombreRepuestoParaPago
-                    );
-                    window.location.href = 'pago.html';
-                } else {
-                    mostrarMensaje(
-                        'Error al procesar el carrito. Intente de nuevo.',
-                        'error'
-                    );
-                }
-            } catch (error) {
-                console.error('Error al enviar el carrito:', error);
-                mostrarMensaje(
-                    'Error de conexión al procesar el pago.',
-                    'error'
-                );
-            }
+            // The cart should already be updated on the server by actualizarCarritoEnServidor
+            // No need for an additional POST/PUT here unless there's a final "checkout" step
+            // that requires a different endpoint. For now, just redirect.
+            window.location.href = 'pago.html';
         } else {
             mostrarMensaje('El carrito está vacío.', 'error');
         }
@@ -273,6 +349,10 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // Inicializar la tienda
-    fetchProductos();
-    actualizarCarritoUI();
+    async function inicializarTienda() {
+        await fetchProductos(); // Ensure products are loaded first
+        await inicializarCarrito(); // Initialize or load the cart after products are fetched
+    }
+
+    inicializarTienda();
 });
