@@ -197,6 +197,15 @@
                     </div>
 
                     <div class="table-container">
+                        <div class="table-controls">
+                            <input type="text" id="filterName" placeholder="Filtrar por Nombre" />
+                            <select id="filterRole">
+                                <option value="">Todos los Roles</option>
+                                <option value="Administrador">Administrador</option>
+                                <option value="Mecánico">Mecánico</option>
+                                <option value="Cliente">Cliente</option>
+                            </select>
+                        </div>
                         <table>
                             <thead>
                                 <tr>
@@ -208,10 +217,16 @@
                             </thead>
                             <tbody id="userTableBody"></tbody>
                         </table>
+                        <div class="pagination-controls">
+                            <button id="prevPage" class="btn">Anterior</button>
+                            <span id="pageInfo">Página 1 de 1</span>
+                            <button id="nextPage" class="btn">Siguiente</button>
+                        </div>
                     </div>
                 </div>
             </section>
         </main>
+        <div id="notification-container" class="notification-container"></div>
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
         <script src="script.js"></script>
