@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="estilos.css" />
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+        <title>Editar Perfil - Servicio Mecánico</title>
+        
+    </head>
+    <body>
+    <header>
+        <h1>Editar Perfil</h1>
+    </header>
+
+    <main>
+        <form id="edit-profile-form">
+            <div class="input-group">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" class="input-field" required />
+            </div>
+            <div class="input-group">
+                <label for="apellido">Apellido:</label>
+                <input type="text" id="apellido" class="input-field" required />
+            </div>
+            <div class="input-group">
+                <label for="correo">Correo:</label>
+                <input type="email" id="correo" class="input-field" required />
+            </div>
+            <div class="input-group">
+                <label for="pass">Nueva Contraseña:</label>
+                <input type="password" id="pass" class="input-field" />
+            </div>
+            <div class="input-group">
+                <label for="confirmar_contraseña">Confirmar Contraseña:</label>
+                <input type="password" id="confirmar_contraseña" class="input-field" />
+            </div>
+            <div class="input-group">
+                <label for="direccion">Dirección:</label>
+                <input type="text" id="direccion" class="input-field" required />
+            </div>
+            <div class="input-group">
+                <label for="telefono">Teléfono:</label>
+                <input type="tel" id="telefono" class="input-field" required />
+            </div>
+            <p id="editMessage" class="message"></p>
+            <button type="submit" class="btn">Guardar Cambios</button>
+             <button type="button" class="btn" id="btnAtras">
+                        Atrás
+                    </button>
+        </form>
+    </main>
+
+    <footer>
+        <p>&copy; AUTO SERVICIO ZAMBRANO</p>
+    </footer>
+
+    <script src="editar.js"></script>
+</body>
+</html>

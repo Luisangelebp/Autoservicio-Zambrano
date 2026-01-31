@@ -38,7 +38,9 @@
                     <a href="ordenes/ordenes.html" class="nav-link"
                         ><i class="fas fa-list"></i>Mis Ordenes</a
                     >
-                    <a href="editarPerfilCliente.html" class="nav-link"
+                    <a
+                        href="./Editar perfil cliente/Editar.html"
+                        class="nav-link"
                         ><i class="fas fa-unlock-alt"></i>Editar Perfil</a
                     >
                     <button id="logoutBtn" class="btn secondary-btn">
@@ -70,6 +72,7 @@
                 if (logoutBtn) {
                     logoutBtn.addEventListener('click', function () {
                         window.location.href = 'index.html'; // Redirigir a la página de login
+                        localStorage.clear(); // Limpiar el almacenamiento local)
                     });
                 }
             });
