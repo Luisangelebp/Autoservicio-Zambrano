@@ -1,0 +1,339 @@
+/* General styles from citas.css for consistency */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    background: linear-gradient(135deg, #aaaaaa 0%, #000000 100%);
+    color: #a71c1c;
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    background-color: #ffa600;
+    color: rgb(11, 11, 11);
+    padding: 25px 0;
+    text-align: center;
+    /* box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); */ /* Removed as per request */
+    animation: fadeInDown 0.8s ease-out;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 3em;
+    letter-spacing: 1px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+main {
+    flex: 1;
+    padding: 35px;
+    max-width: 1400px;
+    margin: 35px auto;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Buttons */
+.btn-primary {
+    width: 100%;
+    max-width: 900px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    background-color: #ffcc00;
+    color: rgb(0, 0, 0);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+}
+
+.btn-primary:hover {
+    background-color: #c0ae0e;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 8px #c0ae0e46;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+    transform: translateY(-2px);
+}
+
+.btn-info {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-info:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+/* Table Styles */
+.table-responsive {
+    overflow-x: auto;
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    padding: 20px;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.data-table th,
+.data-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+    color: #333;
+}
+
+.data-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    color: #555;
+    text-transform: uppercase;
+    font-size: 0.9em;
+}
+
+.data-table tbody tr:hover {
+    background-color: #f5f5f5;
+}
+
+.data-table img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.data-table .actions-buttons button {
+    margin-right: 5px;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.2s ease;
+    border: none;
+}
+
+/* Modal Styles (from citas.css, adapted) */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000; /* Higher z-index for modals */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.6); /* Darker overlay */
+    padding-top: 60px;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 30px;
+    border: 1px solid #888;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 600px; /* Slightly larger max-width for forms */
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    animation-name: animatetop;
+    animation-duration: 0.4s;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    z-index: 1000;
+}
+
+@keyframes animatetop {
+    from {top: -300px; opacity: 0}
+    to {top: 0; opacity: 1}
+}
+
+.close-button {
+    color: #aaa;
+    align-self: flex-end;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-content h2 {
+    color: #000000;
+    font-size: 1.8em;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #ffc800;
+    padding-bottom: 10px;
+    width: 100%;
+    text-align: center;
+}
+
+.form-group {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333;
+    font-size: 1em;
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group input[type="file"],
+.form-group textarea {
+    width: calc(100% - 24px); /* Account for padding */
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1em;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    box-sizing: border-box; /* Include padding in width */
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #ff0000;
+    box-shadow: 0 0 0 3px rgba(255, 221, 0, 0.3);
+    outline: none;
+}
+
+.modal-content button[type="submit"] {
+    margin-top: 10px;
+    width: auto;
+    align-self: center;
+}
+
+.floating-button {
+    position: fixed;
+    z-index: 1000;
+    top: 20px;
+    left: 20px;
+    background-color: #eec64f;
+    color: black;
+    padding: 15px 25px;
+    border-radius: 50px;
+    text-decoration: none;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transition: background-color 0.3s;
+}
+
+.floating-button:hover {
+    background-color: #caa639;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    main {
+        padding: 15px; /* Slightly reduced padding */
+    }
+
+    header h1 {
+        font-size: 2em; /* Adjusted for smaller screens */
+    }
+
+    .modal-content {
+        width: 95%;
+        margin: 10% auto;
+        padding: 20px;
+    }
+
+    .data-table th,
+    .data-table td {
+        padding: 8px 10px; /* Slightly reduced padding */
+        font-size: 0.85em; /* Adjusted for smaller screens */
+    }
+
+    .data-table img {
+        width: 35px; /* Slightly smaller image */
+        height: 35px;
+    }
+
+    .data-table .actions-buttons button {
+        padding: 6px 10px;
+        font-size: 0.8em;
+        margin-bottom: 5px;
+        display: block; /* Ensure buttons stack */
+        width: 100%; /* Full width for stacking */
+    }
+}
+
+@media (max-width: 480px) {
+    main {
+        padding: 10px; /* Further reduced padding for very small screens */
+    }
+
+    header h1 {
+        font-size: 1.6em; /* Further adjusted for very small screens */
+    }
+
+    .btn-primary {
+        padding: 8px 15px; /* Smaller button padding */
+        font-size: 0.9em; /* Smaller button font size */
+    }
+
+    .modal-content h2 {
+        font-size: 1.3em; /* Adjusted for smaller screens */
+    }
+
+    .form-group label {
+        font-size: 0.85em;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        padding: 8px; /* Smaller input padding */
+        font-size: 0.85em;
+    }
+
+    .data-table th,
+    .data-table td {
+        padding: 6px 8px; /* Even smaller padding for table cells */
+        font-size: 0.8em; /* Even smaller font size for table content */
+    }
+
+    .data-table img {
+        width: 30px; /* Even smaller image */
+        height: 30px;
+    }
+
+    .data-table .actions-buttons button {
+        padding: 5px 8px; /* Smaller button padding */
+        font-size: 0.75em; /* Smaller button font size */
+    }
+}

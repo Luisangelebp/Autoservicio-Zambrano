@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Inventario</title>
+        <link rel="stylesheet" href="styles.css" />
+        <!-- Assuming a general styles.css for common elements -->
+        <link rel="stylesheet" href="inventario.css" />
+        <link rel="stylesheet" href="citas.css" />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+        />
+        <!-- To use common styles from citas.css -->
+    </head>
+    <body>
+        <header>
+            <h1>Inventario de Productos</h1>
+        </header>
+
+        <main class="container">
+            <button id="createItemBtn" class="btn-primary">
+                Crear Nuevo Item
+            </button>
+
+            <div class="table-responsive">
+                <table id="inventoryTable" class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Foto</th>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>Precio</th>
+                            <th>Cantidad</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Inventory items will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+
+        <!-- Create Item Modal -->
+        <div id="createItemModal" class="modal">
+            <div class="modal-content">
+                <span class="close-button">&times;</span>
+                <h2>Crear Nuevo Item</h2>
+                <form id="createItemForm">
+                    <div class="form-group">
+                        <label for="createNombre">Nombre:</label>
+                        <input type="text" id="createNombre" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="createDescripcion">Descripción:</label>
+                        <textarea id="createDescripcion" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="createPrecio">Precio:</label>
+                        <input
+                            type="number"
+                            id="createPrecio"
+                            step="0.01"
+                            required
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label for="createCant">Cantidad:</label>
+                        <input type="number" id="createCant" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="createFoto">Foto:</label>
+                        <input type="file" id="createFoto" accept="image/*" />
+                    </div>
+                    <button type="submit" class="btn-primary">
+                        Guardar Item
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Edit Item Modal -->
+        <div id="editItemModal" class="modal">
+            <div class="modal-content">
+                <span class="close-button">&times;</span>
+                <h2>Editar Item</h2>
+                <form id="editItemForm">
+                    <input type="hidden" id="editItemId" />
+                    <div class="form-group">
+                        <label for="editNombre">Nombre:</label>
+                        <input type="text" id="editNombre" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="editDescripcion">Descripción:</label>
+                        <textarea id="editDescripcion" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="editPrecio">Precio:</label>
+                        <input
+                            type="number"
+                            id="editPrecio"
+                            step="0.01"
+                            required
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label for="editCant">Cantidad:</label>
+                        <input type="number" id="editCant" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="editFoto">Foto:</label>
+                        <input type="file" id="editFoto" accept="image/*" />
+                        <img
+                            id="currentFoto"
+                            src=""
+                            alt="Current Photo"
+                            style="
+                                max-width: 100px;
+                                margin-top: 10px;
+                                display: none;
+                            "
+                        />
+                    </div>
+                    <button type="submit" class="btn-primary">
+                        Actualizar Item
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <a href="/pg de administrador.html" class="floating-button"
+            ><i class="bi bi-arrow-left"></i
+        ></a>
+
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="inventario.js"></script>
+    </body>
+</html>

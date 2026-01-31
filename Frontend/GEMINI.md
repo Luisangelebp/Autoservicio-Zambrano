@@ -1,21 +1,14 @@
 ## Lo que vas a hacer
 
-- selectiona los archivos 'ver_citas.html' 'verCita.js' 'citas.css'
-- !!! IMPORTANTE !!!
-- 'citas.css' es un archivo compartido con otra pagina, no eliminies ni alteres los estilos ahi presentes, solo pueder leerlos y agregar nuevos que no conflictuen con los que ya estan
-- conserva los estilos
-- Esta archivo se usara para la visualizacion total de las citas
-- se mostraran como cards
-- agrega filtros por estado y fecha
-- agrega una paginacion
-- vas a agregar un boton a cada card para completar la cita (solo si el estado actual de la cita es "en proceso") debe hacer patch para cambiar el estado a "completada"
-- vas a agregar un boton a cada card para cancelar la cita, su estado debe cambiar a "cancelada", usa el patch
-- vas a agregar un boton para asignarle el monto a la cita, que al dar click salga un modal que permita ingresar el monto
+- selectiona los archivos 'OrdenesAdmin.html', 'ordenesAdmin.css' y 'ordenesAdmin.js'
+- Vas a obtener las ordenes de compra y las vas a mostrar en pantalla como cards
+- Si "entrago" de la orden es false a poner un boton de "Entregado" en cada card, al hacer click el estado de la orden cambia a true
+- vas a agregar filtros de fecha, entregado, cliente
 
 ## Como lo vas a hacer?
 
+- Te puedes basar en los estilos de '/ordenes/ordenes.html'
 - usa axios para todas las peticiones
-- el id lo encontraras en el localStorage.getItem('user')
 - el token lo encontraras en el localStorage.getItem('token')
 - el headers para las peticiones debe tener este formato:
 - ```
@@ -24,19 +17,33 @@
      authorization: token,
    },
   ```
-- usaras el endpoint de http://localhost:8000/citas para obtener todas las citas
-- usaras el endpoint de http://localhost:8000/citas/estado/:id para hacer patch al estado de la cita, solo puedes enviar un body con:
+- para obtener los items lo haces mediante el endpoint http://localhost:8000/items
 - ```
   {
-    "estado": "cancelada" || "confirmada" || "completada"
+    id?: number;
+    nombre: string;
+    descripcion: string;
+    precio: number;
+    cant: number;
+    foto?: string;
   }
   ```
-- usaras el endpoint de http://localhost:8000/citas/monto/:id para hacer patch al monto de la cita
+- para obtener la foto de un items, una ves teniendo el item.foto usas http://localhost:8000/uploads/item.foto
+- Para obtener las ordenes lo haces mediante el endpoint http://localhost:8000/ordenes
+- Para cambiar el estado de "entregado" a true lo haces al axios.patch http://localhost:8000/ordenes/id
+- La orden tiene esta estructura
 - ```
   {
-   "monto": number
+   id?: number;
+   clienteId: number;
+   fecha: Date;
+   entregado: boolean;
+   productos: { itemId: number, cantidad: number , montoU: number}[];
   }
   ```
-- cuando se asigne un monto a una cita debes de hacer un patch al estado para que cambie a "confirmada"
-- usaras el endpoint de http://localhost:8000/clientes para obtener los nombres de los clientes
-- usaras el endpoint de http://localhost:8000/mecanicos para obtener los nombres de los mecanicos
+
+```
+- Puedes usar el endpoint http://localhost:8000/clientes para obtener los clientes, y asi usarlos de filtro y para mostrar al cliente
+
+
+```
