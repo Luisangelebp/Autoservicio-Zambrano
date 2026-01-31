@@ -82,13 +82,32 @@ async function initializeDatabase() {
       FOREIGN KEY (id_cliente) REFERENCES clientes(id),
       FOREIGN KEY (id_mecanico) REFERENCES mecanicos(id)
   );
+  -- Tabla de Ordenes
+  CREATE TABLE IF NOT EXISTS ordenes (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      clienteId INTEGER NOT NULL,
+      fecha TEXT NOT NULL,
+      entregado INTEGER NOT NULL CHECK(entregado IN (0,1)),
+      FOREIGN KEY (clienteId) REFERENCES clientes(id)
+
+  );
+  -- Tabla intermedia ordenes_productos (relación N:M entre carrito e items)
+  CREATE TABLE IF NOT EXISTS ordenes_productos (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      ordenId INTEGER NOT NULL,
+      itemId INTEGER NOT NULL,
+      cantidad INTEGER NOT NULL,
+      precioU REAL NOT NULL,
+      FOREIGN KEY (ordenId) REFERENCES ordenes(id),
+      FOREIGN KEY (itemId) REFERENCES items(id)
+  );
   -- Tabla de Pagos
   CREATE TABLE IF NOT EXISTS pagos (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       metodoPago TEXT CHECK(metodoPago IN ('efectivo','tarjeta','pago movil')) NOT NULL,
       clienteId INTEGER NOT NULL,
       citaId INTEGER,
-      carritoId INTEGER,
+      ordenId INTEGER,
       fecha TEXT NOT NULL,
       confirmado INTEGER NOT NULL CHECK(confirmado IN (0,1)),
       banco TEXT,
@@ -96,8 +115,8 @@ async function initializeDatabase() {
       monto REAL NOT NULL,
       FOREIGN KEY (clienteId) REFERENCES clientes(id),
       FOREIGN KEY (citaId) REFERENCES citas(id),
-      FOREIGN KEY (carritoId) REFERENCES carritos(id)
-    );
+      FOREIGN KEY (ordenId) REFERENCES ordenes(id)
+  );
  `);
 }
 

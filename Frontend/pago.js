@@ -107,6 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function payCitaOCarrito(
+        confirm,
         citaOCarro,
         id_cliente,
         cita_id,
@@ -122,18 +123,17 @@ document.addEventListener('DOMContentLoaded', () => {
             body.append('carroId', cita_id);
         }
         body.append('clienteId', id_cliente);
-        body.append('metodoPago', method.toLowerCase());
+        body.append('metodoPago', method);
 
         if (method.toLowerCase() === 'pago movil') {
             body.append('fecha', data.fecha);
-            body.append('confirmado', false);
+            body.append('confirmado', confirm);
             body.append('banco', data.banco);
             body.append('referencia', data.referencia);
             body.append('monto', data.monto);
         } else {
             body.append('monto', mount);
         }
-
         try {
             const response = await axios.post(
                 'http://localhost:8000/pagos',
@@ -231,10 +231,11 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         payCitaOCarrito(
+            true,
             selectedItem.type,
             user.id,
             selectedItem.id,
-            'Efectivo',
+            'efectivo',
             selectedItem.mount,
         );
     });
@@ -245,10 +246,11 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         payCitaOCarrito(
+            true,
             selectedItem.type,
             user.id,
             selectedItem.id,
-            'Tarjeta',
+            'tarjeta',
             selectedItem.mount,
         );
     });
@@ -277,10 +279,11 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         payCitaOCarrito(
+            false,
             selectedItem.type,
             user.id,
             selectedItem.id,
-            'Pago Movil',
+            'pago movil',
             selectedItem.mount,
             data,
         );

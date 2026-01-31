@@ -25,7 +25,8 @@ document.addEventListener('DOMContentLoaded', () => {
         console.warn(
             'Cliente ID not found in localStorage. Using placeholder ID 1.',
         );
-        clienteId = 1; // Fallback to placeholder
+        localStorage.clear();
+        window.location.href = 'index.html';
     }
     let carritoId = null; // Stores the ID of the current shopping cart
 

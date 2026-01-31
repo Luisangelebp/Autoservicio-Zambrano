@@ -3,7 +3,7 @@ export interface Pago {
     metodoPago: "efectivo" | "tarjeta" | "pago movil";
     clienteId: number;
     citaId?: number;
-    carritoId?: number;
+    ordenId?: number;
     fecha: Date;
     confirmado: boolean;
     banco?: string;

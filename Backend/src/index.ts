@@ -13,6 +13,7 @@ import citaRouter from "./routes/citaRoutes";
 import pagoRouter from "./routes/pagoRoutes";
 import itemsRouter from "./routes/itemsRoutes";
 import carritoRouter from "./routes/carritoRoutes";
+import ordenRouter from "./routes/ordenRoutes";
 
 // --------------------------------
 
@@ -36,6 +37,8 @@ app.use("/citas", authMiddleware, citaRouter);
 app.use("/pagos", authMiddleware, pagoRouter);
 app.use("/items", authMiddleware, itemsRouter);
 app.use("/carrito", authMiddleware, carritoRouter);
+app.use("/ordenes", authMiddleware, ordenRouter);
+
 
 app.use("/uploads", express.static("src/uploads"));
 

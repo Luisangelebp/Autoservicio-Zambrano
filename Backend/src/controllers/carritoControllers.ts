@@ -28,11 +28,11 @@ export async function getCarritoById(req: Request, res: Response) {
   const { clienteId } = req.params;
   try {
     const carrito = await db.get("SELECT * FROM carritos WHERE clienteId = ?", [clienteId]);
-    const id = carrito.id;
-
+    
     if (!carrito) {
       return res.status(404).json({ message: "Carrito no encontrado" });
     }
+    const id = carrito.id;
 
     const productos = await db.all(
       "SELECT itemId, cantidad FROM carrito_productos WHERE carritoId = ?",
@@ -51,7 +51,7 @@ export async function getCarritoById(req: Request, res: Response) {
 export async function createCarrito(req: Request, res: Response) {
   const { clienteId, productos }: Carrito = req.body;
 
-  if (!clienteId || !productos || productos.length === 0) {
+  if (!clienteId) {
     return res.status(400).json({ message: "Faltan campos obligatorios" });
   }
 
@@ -76,20 +76,21 @@ export async function createCarrito(req: Request, res: Response) {
     const carritoId = result.lastID;
 
     // Insertar productos en la tabla intermedia y actualizar stock
-    for (const p of productos) {
-      // Insertar relación carrito-producto
-      await db.run(
-        "INSERT INTO carrito_productos (carritoId, itemId, cantidad) VALUES (?, ?, ?)",
-        [carritoId, p.itemId, p.cantidad]
-      );
+    // if (productos || productos.length > 0) {
+    //   for (const p of productos) {
+    //     // Insertar relación carrito-producto
+    //     await db.run(
+    //       "INSERT INTO carrito_productos (carritoId, itemId, cantidad) VALUES (?, ?, ?)",
+    //       [carritoId, p.itemId, p.cantidad]
+    //     );
 
-      // Actualizar stock del item
-      await db.run(
-        "UPDATE items SET cant = cant - ? WHERE id = ?",
-        [p.cantidad, p.itemId]
-      );
-    }
-
+    //     // Actualizar stock del item
+    //     await db.run(
+    //       "UPDATE items SET cant = cant - ? WHERE id = ?",
+    //       [p.cantidad, p.itemId]
+    //     );
+    //   }
+    // }
     return res.status(201).json({
       message: "Carrito creado exitosamente 🚀",
       carrito: { id: carritoId, clienteId, productos }

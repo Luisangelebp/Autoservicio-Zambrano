@@ -37,7 +37,7 @@ export async function createPago(req: Request, res: Response) {
   if (!metodoPago || !clienteId || !fecha || monto === undefined) {
     return res.status(400).json({ message: "Faltan campos obligatorios" });
   }
-
+  console.log(req.body);
   try {
     const result = await db.run(
       `INSERT INTO pagos (metodoPago, clienteId, citaId, carritoId, fecha, confirmado, banco, referencia, monto)
