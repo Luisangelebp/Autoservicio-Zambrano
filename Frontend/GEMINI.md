@@ -1,13 +1,16 @@
 ## Lo que vas a hacer
 
-- selectiona los archivos 'pg de administrador.html' 'script.js'
+- selectiona los archivos 'ver_citas.html' 'verCita.js' 'citas.css'
+- !!! IMPORTANTE !!!
+- 'citas.css' es un archivo compartido con otra pagina, no eliminies ni alteres los estilos ahi presentes, solo pueder leerlos y agregar nuevos que no conflictuen con los que ya estan
 - conserva los estilos
-- En la seccion de Gestion de personal y clientes
-- vas a mostrar los clientes, admins y mecanicos registrados
-- la tabla en la que los mostraras trata de que no tenga scrolls, usar filtros y paginacion
-- vas a habilitar el formulario de registro, solo para mecanicos y admins
-- vas a habilitar el formalario de edicion, ten en cuenta que maneja metodos put
-- para el manejo de errores, has console.log y tambien crea una pequeña notificacion que dure 3 segundos
+- Esta archivo se usara para la visualizacion total de las citas
+- se mostraran como cards
+- agrega filtros por estado y fecha
+- agrega una paginacion
+- vas a agregar un boton a cada card para completar la cita (solo si el estado actual de la cita es "en proceso") debe hacer patch para cambiar el estado a "completada"
+- vas a agregar un boton a cada card para cancelar la cita, su estado debe cambiar a "cancelada", usa el patch
+- vas a agregar un boton para asignarle el monto a la cita, que al dar click salga un modal que permita ingresar el monto
 
 ## Como lo vas a hacer?
 
@@ -21,25 +24,19 @@
      authorization: token,
    },
   ```
-- usaras los endpoint http://localhost:8000/clientes, http://localhost:8000/admin, http://localhost:8000/mecanicos para hacer el gets de los usuarios
-- para el registro de mecanicos usa el mismo endpoint pero con post
-- para el registro de admins usa el mismo endpoint pero con post
-- para el body del registro de admin usa este formato
+- usaras el endpoint de http://localhost:8000/citas para obtener todas las citas
+- usaras el endpoint de http://localhost:8000/citas/estado/:id para hacer patch al estado de la cita, solo puedes enviar un body con:
 - ```
   {
-    nombre: string;
-    apellido: string;
-    correo: string;
-    pass: string;
-    cedula: string; // valida que el primer caracter sea 'V' o 'E' o 'J' y el resto que sea numeros
+    "estado": "cancelada" || "confirmada" || "completada"
   }
   ```
-- para el body del registro de mecanicos usa este formato
+- usaras el endpoint de http://localhost:8000/citas/monto/:id para hacer patch al monto de la cita
 - ```
   {
-    nombre: string;
-    apellido: string;
-    especialidad: string;
+   "monto": number
   }
   ```
-- para eliminar un usuario usa el endpoint http://localhost:8000/clientes/id o http://localhost:8000/admin/id o http://localhost:8000/mecanicos/id
+- cuando se asigne un monto a una cita debes de hacer un patch al estado para que cambie a "confirmada"
+- usaras el endpoint de http://localhost:8000/clientes para obtener los nombres de los clientes
+- usaras el endpoint de http://localhost:8000/mecanicos para obtener los nombres de los mecanicos
