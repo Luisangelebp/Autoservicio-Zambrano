@@ -75,6 +75,7 @@ async function initializeDatabase() {
               'pendiente',
               'confirmada',
               'completada',
+              'en proceso',
               'cancelada'
           )
       ) DEFAULT 'pendiente',

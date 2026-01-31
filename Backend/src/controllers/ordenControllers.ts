@@ -45,7 +45,7 @@ export async function getOrdenesByCliente(req: Request, res: Response) {
 
 // 3. POST: Crear orden y eliminar el carrito del cliente
 export async function createOrden(req: Request, res: Response) {
-  const { clienteId, pago, productos }: Orden = req.body;
+  const { clienteId, productos }: Orden = req.body;
 
   if (!clienteId || !productos || productos.length === 0) {
     return res.status(400).json({ message: "Datos de orden incompletos" });
@@ -55,8 +55,8 @@ export async function createOrden(req: Request, res: Response) {
     // Iniciar la creación de la orden
     const fechaActual = new Date().toISOString();
     const result = await db.run(
-      "INSERT INTO ordenes (clienteId, pago, fecha, entregado) VALUES (?, ?, ?, ?)",
-      [clienteId, pago, fechaActual, false]
+      "INSERT INTO ordenes (clienteId, fecha, entregado) VALUES (?, ?, ?)",
+      [clienteId, fechaActual, false]
     );
 
     const ordenId = result.lastID;

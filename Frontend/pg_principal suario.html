@@ -20,7 +20,10 @@
     <body>
         <header class="app-header">
             <div class="header-content">
-                <h1><i class="fas fa-user"></i> Bienvenido, Usuario</h1>
+                <h1>
+                    <i class="fas fa-user"></i> Bienvenido,
+                    <span id="userName"></span>
+                </h1>
                 <nav>
                     <a href="citas.html" class="nav-link"
                         ><i class="fas fa-calendar-alt"></i> Agendar Citas</a
@@ -31,6 +34,9 @@
                     <a href="pago.html" class="nav-link"
                         ><i class="fas fa-cash-register"></i>Pagar Compras o
                         Citas</a
+                    >
+                    <a href="ordenes/ordenes.html" class="nav-link"
+                        ><i class="fas fa-list"></i>Mis Ordenes</a
                     >
                     <a href="editarPerfilCliente.html" class="nav-link"
                         ><i class="fas fa-unlock-alt"></i>Editar Perfil</a
@@ -58,6 +64,9 @@
             // Este script es para el botón "Salir" en la página de usuario
             document.addEventListener('DOMContentLoaded', function () {
                 const logoutBtn = document.getElementById('logoutBtn');
+                const userNameElement = document.getElementById('userName');
+                userNameElement.textContent = `${JSON.parse(localStorage.getItem('user')).nombre.toUpperCase()} ${JSON.parse(localStorage.getItem('user')).apellido.toUpperCase()}`;
+
                 if (logoutBtn) {
                     logoutBtn.addEventListener('click', function () {
                         window.location.href = 'index.html'; // Redirigir a la página de login

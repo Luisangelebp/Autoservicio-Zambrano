@@ -32,25 +32,32 @@ export async function getPagoById(req: Request, res: Response) {
 
 // Crear nuevo pago
 export async function createPago(req: Request, res: Response) {
-  const { metodoPago, clienteId, citaId, carritoId, fecha, confirmado, banco, referencia, monto }: Pago = req.body;
+  console.log(req.body);
+  const { metodoPago, clienteId, citaId, ordenId, fecha, confirmado, banco, referencia, monto }: Pago = req.body;
 
   if (!metodoPago || !clienteId || !fecha || monto === undefined) {
     return res.status(400).json({ message: "Faltan campos obligatorios" });
   }
-  console.log(req.body);
   try {
     const result = await db.run(
-      `INSERT INTO pagos (metodoPago, clienteId, citaId, carritoId, fecha, confirmado, banco, referencia, monto)
+      `INSERT INTO pagos (metodoPago, clienteId, citaId, ordenId, fecha, confirmado, banco, referencia, monto)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      [metodoPago, clienteId, citaId || null, carritoId || null, fecha, confirmado ? 1 : 0, banco || null, referencia || null, monto]
+      [metodoPago, clienteId, citaId || null, ordenId || null, fecha, confirmado ? 1 : 0, banco || null, referencia || null, monto]
     );
+
+    if (citaId) {
+      await db.run(
+        `UPDATE citas SET estado = 'en proceso' WHERE id = ?`,
+        [citaId]
+      );
+    }
 
     const newPago = {
       id: result.lastID,
       metodoPago,
       clienteId,
       citaId,
-      carritoId,
+      ordenId,
       fecha,
       confirmado,
       banco,
@@ -71,14 +78,14 @@ export async function createPago(req: Request, res: Response) {
 // Actualizar pago (PUT)
 export async function updatePago(req: Request, res: Response) {
   const { id } = req.params;
-  const { metodoPago, clienteId, citaId, carritoId, fecha, confirmado, banco, referencia, monto }: Pago = req.body;
+  const { metodoPago, clienteId, citaId, ordenId, fecha, confirmado, banco, referencia, monto }: Pago = req.body;
 
   try {
     const result = await db.run(
       `UPDATE pagos
-       SET metodoPago = ?, clienteId = ?, citaId = ?, carritoId = ?, fecha = ?, confirmado = ?, banco = ?, referencia = ?, monto = ?
+       SET metodoPago = ?, clienteId = ?, citaId = ?, ordenId = ?, fecha = ?, confirmado = ?, banco = ?, referencia = ?, monto = ?
        WHERE id = ?`,
-      [metodoPago, clienteId, citaId, carritoId, fecha, confirmado ? 1 : 0, banco, referencia, monto, id]
+      [metodoPago, clienteId, citaId, ordenId, fecha, confirmado ? 1 : 0, banco, referencia, monto, id]
     );
 
     if (result.changes === 0) {

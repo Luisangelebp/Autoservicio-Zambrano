@@ -6,5 +6,5 @@ export interface Cita {
     descripcion: string;
     servicio: string;
     monto: number;
-    estado: "pendiente" | "confirmada" | "completada" | "cancelada";
+    estado: "pendiente" | "confirmada" | "en proceso" | "completada" | "cancelada";
 }

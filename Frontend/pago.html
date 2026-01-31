@@ -46,14 +46,22 @@
                         required
                     />
                     <label for="monto">Monto:</label>
-                    <input type="number" id="monto" name="monto" required />
+                    <input
+                        type="number"
+                        id="monto"
+                        name="monto"
+                        step="any"
+                        required
+                    />
                     <label for="banco">Banco:</label>
                     <select id="banco" name="banco" required></select>
                     <button type="submit">Pagar</button>
                 </form>
             </aside>
         </main>
-        <button id="regresar-btn"><i class="bi bi-arrow-left"></i></button>
+        <button id="regresar-btn" class="floating-button">
+            <i class="bi bi-arrow-left"></i>
+        </button>
 
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script src="pago.js"></script>

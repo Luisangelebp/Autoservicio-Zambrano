@@ -90,7 +90,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         } catch (error) {
             console.error('Error fetching carrito:', error);
-            carroContainer.innerHTML = '<p>Error al cargar el carrito.</p>';
+            if (error.response.status === 404) {
+                carroContainer.innerHTML =
+                    '<p>No tienes productos en tu carrito.</p>';
+            }
         }
     }
 
@@ -106,6 +109,45 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    async function createOrder(clienteId) {
+        const carroResponse = await axios.get(
+            `http://localhost:8000/carrito/${clienteId}`,
+            {
+                headers: { authorization: `${token}` },
+            },
+        );
+
+        const allItems = await getItems();
+
+        const productos = carroResponse.data.productos.map((producto) => {
+            const itemDetails = allItems.find(
+                (item) => item.id === producto.itemId,
+            );
+            if (!itemDetails) {
+                throw new Error(`Item with id ${producto.itemId} not found`);
+            }
+            return {
+                itemId: producto.itemId,
+                cantidad: producto.cantidad,
+                montoU: itemDetails.precio,
+            };
+        });
+
+        const ordenBody = {
+            clienteId: clienteId,
+            entregado: false,
+            productos: productos,
+        };
+
+        const response = await axios.post(
+            'http://localhost:8000/ordenes',
+            ordenBody,
+            { headers: { authorization: `${token}` } },
+        );
+
+        return response.data;
+    }
+
     async function payCitaOCarrito(
         confirm,
         citaOCarro,
@@ -116,34 +158,58 @@ document.addEventListener('DOMContentLoaded', () => {
         data,
     ) {
         if (!token) return;
-        const body = new FormData();
-        if (citaOCarro === 'cita') {
-            body.append('citaId', cita_id);
+        let body = {};
+
+        if (citaOCarro === 'carro') {
+            try {
+                const orden = await createOrder(id_cliente);
+                console.log('Orden creada:', orden);
+                if (orden) {
+                    body['ordenId'] = orden.ordenId;
+                } else {
+                    alert('Hubo un error al crear la orden de compra.');
+                    return;
+                }
+            } catch (error) {
+                console.error('Error al crear la orden:', error);
+                alert('Hubo un error al crear la orden de compra.');
+                return;
+            }
         } else {
-            body.append('carroId', cita_id);
+            body['citaId'] = cita_id;
         }
-        body.append('clienteId', id_cliente);
-        body.append('metodoPago', method);
+
+        body['clienteId'] = id_cliente;
+        console.log(method);
+        body['metodoPago'] = `${method}`;
 
         if (method.toLowerCase() === 'pago movil') {
-            body.append('fecha', data.fecha);
-            body.append('confirmado', confirm);
-            body.append('banco', data.banco);
-            body.append('referencia', data.referencia);
-            body.append('monto', data.monto);
+            body['fecha'] = data.fecha;
+            body['confirmado'] = confirm;
+            body['banco'] = data.banco;
+            body['referencia'] = data.referencia;
+            body['monto'] = data.monto;
         } else {
-            body.append('monto', mount);
+            body['monto'] = mount;
+            body['fecha'] = new Date().toISOString();
         }
         try {
             const response = await axios.post(
                 'http://localhost:8000/pagos',
                 body,
                 {
-                    headers: { Authorization: `${token}` },
+                    headers: {
+                        Authorization: `${token}`,
+                        'Content-Type': 'application/json',
+                    },
                 },
             );
-            alert('Pago procesado exitosamente!');
-            window.location.reload(); // Recargar para limpiar la vista
+            let s = document.createElement('strong');
+            s.textContent = 'Pago exitoso, redirigiendo...';
+            document.getElementById('pago-info').appendChild(s);
+            setTimeout(() => {
+                window.location.href = 'pg_principal suario.html';
+            }, 3000);
         } catch (error) {
             console.error('Error en el pago:', error);
             alert('Hubo un error al procesar el pago.');
