@@ -4,9 +4,40 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="ordenesAdmin.css" />
-        <title>Ordenes de Compra</title>
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+        />
+        <title>Administración de Órdenes</title>
     </head>
     <body>
+        <header>
+            <h1>Administración de Órdenes</h1>
+        </header>
+
+        <div class="filters">
+            <label for="fecha-filter">Fecha:</label>
+            <input type="date" id="fecha-filter" />
+
+            <label for="entregado-filter">Estado:</label>
+            <select id="entregado-filter">
+                <option value="todas">Todas</option>
+                <option value="true">Entregado</option>
+                <option value="false">Pendiente</option>
+            </select>
+
+            <label for="cliente-filter">Cliente:</label>
+            <select id="cliente-filter">
+                <option value="todos">Todos</option>
+            </select>
+        </div>
+
+        <main id="ordenes-container" class="ordenes-container"></main>
+
+        <a href="pg de administrador.html" class="floating-button"
+            ><i class="bi bi-arrow-left"></i
+        ></a>
+
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script src="ordenesAdmin.js"></script>
     </body>

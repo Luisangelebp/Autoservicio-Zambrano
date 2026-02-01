@@ -1,0 +1,91 @@
+body {
+    font-family: sans-serif;
+    margin: 0;
+    background-color: #f4f4f4;
+}
+
+header {
+    background-color: #ffb700;
+    color: rgb(0, 0, 0);
+    padding: 1rem;
+    text-align: center;
+}
+
+.filters {
+    padding: 1rem;
+    background-color: white;
+    margin: 1rem;
+    border-radius: 8px;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+.filters label{
+    
+}
+.filters select{
+    padding: 10px;
+    border-radius: 5px;
+    min-width: 30%;
+}
+
+.ordenes-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.orden-card {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-left: 5px solid #6d6d6d;
+}
+
+.orden-card.entregado {
+    border-left: 5px solid #28a745;
+}
+
+.orden-card h3 {
+    margin-top: 0;
+}
+
+.floating-button {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background-color: #2b2a27;
+    color: white;
+    padding: 15px 25px;
+    border-radius: 50px;
+    text-decoration: none;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transition: background-color 0.3s;
+}
+
+.floating-button:hover {
+    background-color: #1d1e1f;
+}
+
+.deliver-button{
+    background-color: aquamarine;
+    padding: 8px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.deliver-button:hover{
+    background-color: rgb(101, 223, 182);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .filters {
+        flex-direction: column;
+    }
+}
